@@ -20,7 +20,6 @@ jobs:
       # 1) PNPM nainstalovat jako první (spolehlivé na všech runnerech)
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
           run_install: false
 
       # 2) Node + cache pro PNPM (cachuje podle pnpm-lock.yaml v kořeni)
