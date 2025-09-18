@@ -14,17 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 1) nainstaluj PNPM jako první
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      # 2) až teď setup-node + cache pro PNPM
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
-
-      # 👇 zajistí pnpm na runneru (spolehlivější než jen corepack)
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: false
 
       - run: pnpm -v
       - run: pnpm install --frozen-lockfile
@@ -44,16 +45,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          run_install: false
 
       - run: pnpm -v
       - run: pnpm install --frozen-lockfile
