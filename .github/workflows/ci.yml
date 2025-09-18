@@ -1,0 +1,51 @@
+name: CI
+on:
+  push:
+    branches: [ main, staging ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [storefront, medusa, importer]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1) PNPM nainstalovat jako první (spolehlivé na všech runnerech)
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      # 2) Node + cache pro PNPM (cachuje podle pnpm-lock.yaml v kořeni)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - run: pnpm -v
+
+      # Jedna instalace pro celé monorepo
+      - name: Install workspace
+        run: pnpm -w install --frozen-lockfile
+
+      - name: Lint (${{ matrix.app }})
+        run: pnpm --filter "./apps/${{ matrix.app }}" run --if-present lint
+
+      - name: Build (${{ matrix.app }})
+        if: matrix.app != 'storefront'
+        run: pnpm --filter "./apps/${{ matrix.app }}" run --if-present build
+
+      - name: Build storefront
+        if: matrix.app == 'storefront'
+        run: pnpm --filter "./apps/${{ matrix.app }}" run --if-present build
+        env:
+          NEXT_PUBLIC_MEDUSA_URL: ${{ secrets.NEXT_PUBLIC_MEDUSA_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
