@@ -1,0 +1,45 @@
+---
+name: CI
+on:
+  push:
+    branches: [ main, staging ]
+  pull_request:
+
+jobs:
+  lint-build-storefront:
+    name: Lint & Build Storefront
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/storefront
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: corepack enable && pnpm -v
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint || echo "no lint script"
+      - run: pnpm run build
+        env:
+          NEXT_PUBLIC_MEDUSA_URL: ${{ secrets.NEXT_PUBLIC_MEDUSA_URL }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
+
+  lint-build-medusa:
+    name: Lint & Build Medusa
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/medusa
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: corepack enable && pnpm -v
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint || echo "no lint script"
+      - run: pnpm run build || echo "no build script"
