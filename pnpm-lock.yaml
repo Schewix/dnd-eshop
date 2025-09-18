@@ -39,17 +39,26 @@ importers:
     dependencies:
       '@medusajs/medusa':
         specifier: 1.12.2
-        version: 1.12.2(@medusajs/types@1.11.17)(@mikro-orm/core@5.9.8)(@types/ioredis-mock@8.2.6)(medusa-interfaces@1.3.10)(pg@8.11.5)(typeorm@0.3.26)
+        version: 1.12.2(@medusajs/types@1.11.17)(@mikro-orm/core@5.9.8)(@types/ioredis-mock@8.2.6)(@types/node@20.11.30)(medusa-interfaces@1.3.10)(pg@8.11.5)(typeorm@0.3.26)
       '@medusajs/medusa-cli':
         specifier: 1.3.23
-        version: 1.3.23
+        version: 1.3.23(@types/node@20.11.30)
       dotenv:
         specifier: 16.4.5
         version: 16.4.5
       pg:
         specifier: 8.11.5
         version: 8.11.5
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      typeorm:
+        specifier: '0.3'
+        version: 0.3.26(ioredis@5.7.0)(pg@8.11.5)(reflect-metadata@0.2.2)
     devDependencies:
+      '@types/node':
+        specifier: 20.11.30
+        version: 20.11.30
       typescript:
         specifier: 5.4.5
         version: 5.4.5
@@ -503,7 +512,7 @@ packages:
     deprecated: Use @eslint/object-schema instead
     dev: true
 
-  /@inquirer/external-editor@1.0.2:
+  /@inquirer/external-editor@1.0.2(@types/node@20.11.30):
     resolution: {integrity: sha512-yy9cOoBnx58TlsPrIxauKIFQTiyH+0MK4e97y4sV9ERbI+zDxw7i2hxHLCIEGIE/8PPvDxGhgzIOTSOWcs6/MQ==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -512,6 +521,7 @@ packages:
       '@types/node':
         optional: true
     dependencies:
+      '@types/node': 20.11.30
       chardet: 2.1.0
       iconv-lite: 0.7.0
     dev: false
@@ -574,7 +584,61 @@ packages:
       fs-extra: 10.1.0
       glob: 7.2.3
       hosted-git-info: 4.1.0
-      inquirer: 8.2.7
+      inquirer: 8.2.7(@types/node@20.11.30)
+      is-valid-path: 0.1.1
+      meant: 1.0.3
+      medusa-core-utils: 1.2.3
+      medusa-telemetry: 0.0.18
+      open: 8.4.2
+      ora: 5.4.1
+      pg: 8.11.5
+      pg-god: 1.0.12
+      prompts: 2.4.2
+      regenerator-runtime: 0.13.11
+      resolve-cwd: 3.0.0
+      semver: 7.7.2
+      stack-trace: 0.0.10
+      ulid: 2.4.0
+      winston: 3.17.0
+      yargs: 15.4.1
+    transitivePeerDependencies:
+      - '@mikro-orm/better-sqlite'
+      - '@mikro-orm/entity-generator'
+      - '@mikro-orm/mariadb'
+      - '@mikro-orm/migrations-mongodb'
+      - '@mikro-orm/mongodb'
+      - '@mikro-orm/mysql'
+      - '@mikro-orm/seeder'
+      - '@mikro-orm/sqlite'
+      - '@types/node'
+      - better-sqlite3
+      - debug
+      - mssql
+      - mysql
+      - mysql2
+      - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
+    dev: false
+
+  /@medusajs/medusa-cli@1.3.23(@types/node@20.11.30):
+    resolution: {integrity: sha512-0kLG9OP3h9rXwE9QHYrB6Psi+85lFpyTwGUNZNxhD/duZiuGdvUOw4om95lr7dsDzyBUzGg+nDqRb/9XnHC/lA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      '@medusajs/utils': 1.11.11(@types/node@20.11.30)(pg@8.11.5)
+      axios: 0.21.4
+      chalk: 4.1.2
+      configstore: 5.0.1
+      core-js: 3.45.1
+      dotenv: 16.4.5
+      execa: 5.1.1
+      fs-exists-cached: 1.0.0
+      fs-extra: 10.1.0
+      glob: 7.2.3
+      hosted-git-info: 4.1.0
+      inquirer: 8.2.7(@types/node@20.11.30)
       is-valid-path: 0.1.1
       meant: 1.0.3
       medusa-core-utils: 1.2.3
@@ -626,6 +690,91 @@ packages:
       uuid: 9.0.1
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /@medusajs/medusa@1.12.2(@medusajs/types@1.11.17)(@mikro-orm/core@5.9.8)(@types/ioredis-mock@8.2.6)(@types/node@20.11.30)(medusa-interfaces@1.3.10)(pg@8.11.5)(typeorm@0.3.26):
+    resolution: {integrity: sha512-i8LyWg8tZ8GTWCH5SrNWKgclLL0Q/WujCoHbOTMgkvA/HtvqqxNwqfP6/9pQQCU6/HEjRlbmCgUrD3bhZ74khg==}
+    hasBin: true
+    peerDependencies:
+      '@medusajs/types': ^1.8.7
+      medusa-interfaces: ^1.3.7
+      typeorm: ^0.3.16
+    dependencies:
+      '@medusajs/medusa-cli': 1.3.23(@types/node@20.11.30)
+      '@medusajs/modules-sdk': 1.12.12(@types/node@20.11.30)
+      '@medusajs/types': 1.11.17
+      '@medusajs/utils': 1.11.11(@types/node@20.11.30)(pg@8.11.5)
+      awilix: 8.0.1
+      body-parser: 1.20.3
+      boxen: 5.1.2
+      bullmq: 3.16.2
+      chokidar: 3.6.0
+      class-transformer: 0.5.1
+      class-validator: 0.14.2
+      compression: 1.8.1
+      connect-redis: 5.2.0
+      cookie-parser: 1.4.7
+      core-js: 3.45.1
+      cors: 2.8.5
+      cross-spawn: 7.0.6
+      dotenv: 16.4.5
+      express: 4.21.2
+      express-session: 1.18.2
+      fs-exists-cached: 1.0.0
+      glob: 7.2.3
+      ioredis: 5.7.0
+      ioredis-mock: 8.4.0(@types/ioredis-mock@8.2.6)(ioredis@5.7.0)
+      iso8601-duration: 1.3.0
+      jsonwebtoken: 9.0.2
+      lodash: 4.17.21
+      medusa-core-utils: 1.2.3
+      medusa-interfaces: 1.3.10
+      medusa-telemetry: 0.0.16
+      medusa-test-utils: 1.1.45(@medusajs/medusa@1.12.2)(@medusajs/modules-sdk@1.12.12)(@mikro-orm/core@5.9.8)(@types/node@20.11.30)(express@4.21.2)(pg@8.11.5)(typeorm@0.3.26)
+      morgan: 1.10.1
+      multer: 1.4.5-lts.2
+      node-schedule: 2.1.1
+      papaparse: 5.3.2
+      passport: 0.6.0
+      passport-http-bearer: 1.0.1
+      passport-jwt: 4.0.1
+      passport-local: 1.0.0
+      qs: 6.14.0
+      randomatic: 3.1.1
+      redis: 3.1.2
+      reflect-metadata: 0.1.14
+      regenerator-runtime: 0.13.11
+      request-ip: 2.2.0
+      scrypt-kdf: 2.0.1
+      typeorm: 0.3.26(ioredis@5.7.0)(pg@8.11.5)(reflect-metadata@0.2.2)
+      ulid: 2.4.0
+      uuid: 9.0.1
+      winston: 3.17.0
+    transitivePeerDependencies:
+      - '@mikro-orm/better-sqlite'
+      - '@mikro-orm/core'
+      - '@mikro-orm/entity-generator'
+      - '@mikro-orm/mariadb'
+      - '@mikro-orm/migrations-mongodb'
+      - '@mikro-orm/mongodb'
+      - '@mikro-orm/mysql'
+      - '@mikro-orm/seeder'
+      - '@mikro-orm/sqlite'
+      - '@types/ioredis-mock'
+      - '@types/node'
+      - axios
+      - better-sqlite3
+      - debug
+      - get-port
+      - mssql
+      - mysql
+      - mysql2
+      - pg
+      - pg-god
+      - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
     dev: false
 
   /@medusajs/medusa@1.12.2(@medusajs/types@1.11.17)(@mikro-orm/core@5.9.8)(@types/ioredis-mock@8.2.6)(axios@1.7.7)(medusa-interfaces@1.3.10)(typeorm@0.3.26):
@@ -713,91 +862,6 @@ packages:
       - tedious
     dev: false
 
-  /@medusajs/medusa@1.12.2(@medusajs/types@1.11.17)(@mikro-orm/core@5.9.8)(@types/ioredis-mock@8.2.6)(medusa-interfaces@1.3.10)(pg@8.11.5)(typeorm@0.3.26):
-    resolution: {integrity: sha512-i8LyWg8tZ8GTWCH5SrNWKgclLL0Q/WujCoHbOTMgkvA/HtvqqxNwqfP6/9pQQCU6/HEjRlbmCgUrD3bhZ74khg==}
-    hasBin: true
-    peerDependencies:
-      '@medusajs/types': ^1.8.7
-      medusa-interfaces: ^1.3.7
-      typeorm: ^0.3.16
-    dependencies:
-      '@medusajs/medusa-cli': 1.3.23
-      '@medusajs/modules-sdk': 1.12.12
-      '@medusajs/types': 1.11.17
-      '@medusajs/utils': 1.11.11(pg@8.11.5)
-      awilix: 8.0.1
-      body-parser: 1.20.3
-      boxen: 5.1.2
-      bullmq: 3.16.2
-      chokidar: 3.6.0
-      class-transformer: 0.5.1
-      class-validator: 0.14.2
-      compression: 1.8.1
-      connect-redis: 5.2.0
-      cookie-parser: 1.4.7
-      core-js: 3.45.1
-      cors: 2.8.5
-      cross-spawn: 7.0.6
-      dotenv: 16.4.5
-      express: 4.21.2
-      express-session: 1.18.2
-      fs-exists-cached: 1.0.0
-      glob: 7.2.3
-      ioredis: 5.7.0
-      ioredis-mock: 8.4.0(@types/ioredis-mock@8.2.6)(ioredis@5.7.0)
-      iso8601-duration: 1.3.0
-      jsonwebtoken: 9.0.2
-      lodash: 4.17.21
-      medusa-core-utils: 1.2.3
-      medusa-interfaces: 1.3.10
-      medusa-telemetry: 0.0.16
-      medusa-test-utils: 1.1.45(@medusajs/medusa@1.12.2)(@medusajs/modules-sdk@1.12.12)(@mikro-orm/core@5.9.8)(express@4.21.2)(pg@8.11.5)(typeorm@0.3.26)
-      morgan: 1.10.1
-      multer: 1.4.5-lts.2
-      node-schedule: 2.1.1
-      papaparse: 5.3.2
-      passport: 0.6.0
-      passport-http-bearer: 1.0.1
-      passport-jwt: 4.0.1
-      passport-local: 1.0.0
-      qs: 6.14.0
-      randomatic: 3.1.1
-      redis: 3.1.2
-      reflect-metadata: 0.1.14
-      regenerator-runtime: 0.13.11
-      request-ip: 2.2.0
-      scrypt-kdf: 2.0.1
-      typeorm: 0.3.26(ioredis@5.7.0)(pg@8.11.5)(reflect-metadata@0.2.2)
-      ulid: 2.4.0
-      uuid: 9.0.1
-      winston: 3.17.0
-    transitivePeerDependencies:
-      - '@mikro-orm/better-sqlite'
-      - '@mikro-orm/core'
-      - '@mikro-orm/entity-generator'
-      - '@mikro-orm/mariadb'
-      - '@mikro-orm/migrations-mongodb'
-      - '@mikro-orm/mongodb'
-      - '@mikro-orm/mysql'
-      - '@mikro-orm/seeder'
-      - '@mikro-orm/sqlite'
-      - '@types/ioredis-mock'
-      - '@types/node'
-      - axios
-      - better-sqlite3
-      - debug
-      - get-port
-      - mssql
-      - mysql
-      - mysql2
-      - pg
-      - pg-god
-      - pg-native
-      - sqlite3
-      - supports-color
-      - tedious
-    dev: false
-
   /@medusajs/modules-sdk@1.12.12:
     resolution: {integrity: sha512-27Uc75N+pS490BL6/j8BeM4OyEFlSQQWq2UW07p9GEF7GXXdCJRM5p7S/ZcTAZ61pCKpnQBNiS4qOkb/vhnJwg==}
     engines: {node: '>=16'}
@@ -826,6 +890,69 @@ packages:
       - mssql
       - mysql
       - mysql2
+      - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
+    dev: false
+
+  /@medusajs/modules-sdk@1.12.12(@types/node@20.11.30):
+    resolution: {integrity: sha512-27Uc75N+pS490BL6/j8BeM4OyEFlSQQWq2UW07p9GEF7GXXdCJRM5p7S/ZcTAZ61pCKpnQBNiS4qOkb/vhnJwg==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@graphql-tools/merge': 9.1.1(graphql@16.11.0)
+      '@graphql-tools/schema': 10.0.25(graphql@16.11.0)
+      '@medusajs/orchestration': 0.5.8(@types/node@20.11.30)(pg@8.11.5)
+      '@medusajs/types': 1.11.17
+      '@medusajs/utils': 1.11.11(@types/node@20.11.30)(pg@8.11.5)
+      awilix: 8.0.1
+      graphql: 16.11.0
+      knex: 2.4.2(pg@8.11.5)
+      pg: 8.11.5
+      resolve-cwd: 3.0.0
+    transitivePeerDependencies:
+      - '@mikro-orm/better-sqlite'
+      - '@mikro-orm/entity-generator'
+      - '@mikro-orm/mariadb'
+      - '@mikro-orm/migrations-mongodb'
+      - '@mikro-orm/mongodb'
+      - '@mikro-orm/mysql'
+      - '@mikro-orm/seeder'
+      - '@mikro-orm/sqlite'
+      - '@types/node'
+      - better-sqlite3
+      - mssql
+      - mysql
+      - mysql2
+      - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
+    dev: false
+
+  /@medusajs/orchestration@0.5.8(@types/node@20.11.30)(pg@8.11.5):
+    resolution: {integrity: sha512-jCBo6rbfQ6rQCKMarK5K+Lc/Dgq0Ddzqs5FIpFklHTd34gvsjtSAt0W+V9x9P9xwrDN0gNEoGXwTSXihNqrJVQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@medusajs/types': 1.11.17
+      '@medusajs/utils': 1.11.11(@types/node@20.11.30)(pg@8.11.5)
+      awilix: 8.0.1
+      graphql: 16.11.0
+    transitivePeerDependencies:
+      - '@mikro-orm/better-sqlite'
+      - '@mikro-orm/entity-generator'
+      - '@mikro-orm/mariadb'
+      - '@mikro-orm/migrations-mongodb'
+      - '@mikro-orm/mongodb'
+      - '@mikro-orm/mysql'
+      - '@mikro-orm/seeder'
+      - '@mikro-orm/sqlite'
+      - '@types/node'
+      - better-sqlite3
+      - mssql
+      - mysql
+      - mysql2
+      - pg
       - pg-native
       - sqlite3
       - supports-color
@@ -873,6 +1000,39 @@ packages:
       '@medusajs/types': 1.11.17
       '@mikro-orm/core': 5.9.7(@mikro-orm/migrations@5.9.7)(@mikro-orm/postgresql@5.9.7)
       '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)
+      '@mikro-orm/postgresql': 5.9.7(@mikro-orm/core@5.9.7)(@mikro-orm/migrations@5.9.7)
+      awilix: 8.0.1
+      bignumber.js: 9.3.1
+      knex: 2.4.2(pg@8.11.5)
+      ulid: 2.4.0
+    transitivePeerDependencies:
+      - '@mikro-orm/better-sqlite'
+      - '@mikro-orm/entity-generator'
+      - '@mikro-orm/mariadb'
+      - '@mikro-orm/migrations-mongodb'
+      - '@mikro-orm/mongodb'
+      - '@mikro-orm/mysql'
+      - '@mikro-orm/seeder'
+      - '@mikro-orm/sqlite'
+      - '@types/node'
+      - better-sqlite3
+      - mssql
+      - mysql
+      - mysql2
+      - pg
+      - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
+    dev: false
+
+  /@medusajs/utils@1.11.11(@types/node@20.11.30)(pg@8.11.5):
+    resolution: {integrity: sha512-r4u1Ctgwt0LftnAHggTfU7RgNppdwY6DfQaefxSrPRSCBMniU6p7j9Lv1G7DkTXZd79V9UNJuixqtlFezGC1tA==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@medusajs/types': 1.11.17
+      '@mikro-orm/core': 5.9.7(@mikro-orm/migrations@5.9.7)(@mikro-orm/postgresql@5.9.7)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)(@types/node@20.11.30)(pg@8.11.5)
       '@mikro-orm/postgresql': 5.9.7(@mikro-orm/core@5.9.7)(@mikro-orm/migrations@5.9.7)
       awilix: 8.0.1
       bignumber.js: 9.3.1
@@ -968,7 +1128,7 @@ packages:
       '@mikro-orm/sqlite':
         optional: true
     dependencies:
-      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)(@types/node@20.11.30)(pg@8.11.5)
       '@mikro-orm/postgresql': 5.9.7(@mikro-orm/core@5.9.7)(@mikro-orm/migrations@5.9.7)
       acorn-loose: 8.3.0
       acorn-walk: 8.2.0
@@ -1099,10 +1259,52 @@ packages:
         optional: true
     dependencies:
       '@mikro-orm/core': 5.9.7(@mikro-orm/migrations@5.9.7)(@mikro-orm/postgresql@5.9.7)
-      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)(pg@8.11.5)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)(@types/node@20.11.30)(pg@8.11.5)
       fs-extra: 11.1.1
       knex: 2.5.1(pg@8.11.5)
       pg: 8.11.5
+      sqlstring: 2.3.3
+    transitivePeerDependencies:
+      - pg-native
+      - supports-color
+      - tedious
+    dev: false
+
+  /@mikro-orm/knex@5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7):
+    resolution: {integrity: sha512-LmyoXPXrEtTJ4/D/2/ppWMjRxIHwyk/E/2SNz28/fmN+nK9of6Sqa0ql6M0WJRNxYOxLiVOGZWy1fGJAGW3lCg==}
+    engines: {node: '>= 14.0.0'}
+    peerDependencies:
+      '@mikro-orm/core': ^5.0.0
+      '@mikro-orm/entity-generator': ^5.0.0
+      '@mikro-orm/migrations': ^5.0.0
+      better-sqlite3: '*'
+      mssql: '*'
+      mysql: '*'
+      mysql2: '*'
+      pg: '*'
+      sqlite3: '*'
+    peerDependenciesMeta:
+      '@mikro-orm/entity-generator':
+        optional: true
+      '@mikro-orm/migrations':
+        optional: true
+      better-sqlite3:
+        optional: true
+      mssql:
+        optional: true
+      mysql:
+        optional: true
+      mysql2:
+        optional: true
+      pg:
+        optional: true
+      sqlite3:
+        optional: true
+    dependencies:
+      '@mikro-orm/core': 5.9.8
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)
+      fs-extra: 11.1.1
+      knex: 2.5.1(pg@8.11.3)
       sqlstring: 2.3.3
     transitivePeerDependencies:
       - pg-native
@@ -1142,7 +1344,7 @@ packages:
         optional: true
     dependencies:
       '@mikro-orm/core': 5.9.8
-      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)(@types/node@20.11.30)(pg@8.11.5)
       fs-extra: 11.1.1
       knex: 2.5.1(pg@8.11.3)
       pg: 8.11.3
@@ -1185,7 +1387,7 @@ packages:
         optional: true
     dependencies:
       '@mikro-orm/core': 5.9.8
-      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)(pg@8.11.5)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)(@types/node@20.11.30)(pg@8.11.5)
       fs-extra: 11.1.1
       knex: 2.5.1(pg@8.11.5)
       pg: 8.11.5
@@ -1206,7 +1408,32 @@ packages:
       '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.7)(@mikro-orm/migrations@5.9.7)(pg@8.11.3)
       fs-extra: 11.1.1
       knex: 2.5.1(pg@8.11.3)
-      umzug: 3.3.1
+      umzug: 3.3.1(@types/node@20.11.30)
+    transitivePeerDependencies:
+      - '@mikro-orm/entity-generator'
+      - '@types/node'
+      - better-sqlite3
+      - mssql
+      - mysql
+      - mysql2
+      - pg
+      - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
+    dev: false
+
+  /@mikro-orm/migrations@5.9.7(@mikro-orm/core@5.9.7)(@types/node@20.11.30)(pg@8.11.5):
+    resolution: {integrity: sha512-5CFVIwmGMxN7p7Rs3KRQmYlDVy47DN2MJQqtDOSVG9ww0xzOP0suCLDA/yRG1uFcPnTn/Ru6lwAH6nllqV75FQ==}
+    engines: {node: '>= 14.0.0'}
+    peerDependencies:
+      '@mikro-orm/core': ^5.0.0
+    dependencies:
+      '@mikro-orm/core': 5.9.7(@mikro-orm/migrations@5.9.7)(@mikro-orm/postgresql@5.9.7)
+      '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.7)(@mikro-orm/migrations@5.9.7)(pg@8.11.5)
+      fs-extra: 11.1.1
+      knex: 2.5.1(pg@8.11.5)
+      umzug: 3.3.1(@types/node@20.11.30)
     transitivePeerDependencies:
       - '@mikro-orm/entity-generator'
       - '@types/node'
@@ -1231,7 +1458,7 @@ packages:
       '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.7)(@mikro-orm/migrations@5.9.7)(pg@8.11.5)
       fs-extra: 11.1.1
       knex: 2.5.1(pg@8.11.5)
-      umzug: 3.3.1
+      umzug: 3.3.1(@types/node@20.11.30)
     transitivePeerDependencies:
       - '@mikro-orm/entity-generator'
       - '@types/node'
@@ -1253,10 +1480,10 @@ packages:
       '@mikro-orm/core': ^5.0.0
     dependencies:
       '@mikro-orm/core': 5.9.8
-      '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7)(pg@8.11.3)
+      '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7)
       fs-extra: 11.1.1
       knex: 2.5.1(pg@8.11.3)
-      umzug: 3.3.1
+      umzug: 3.3.1(@types/node@20.11.30)
     transitivePeerDependencies:
       - '@mikro-orm/entity-generator'
       - '@types/node'
@@ -1271,7 +1498,7 @@ packages:
       - tedious
     dev: false
 
-  /@mikro-orm/migrations@5.9.7(@mikro-orm/core@5.9.8)(pg@8.11.5):
+  /@mikro-orm/migrations@5.9.7(@mikro-orm/core@5.9.8)(@types/node@20.11.30)(pg@8.11.5):
     resolution: {integrity: sha512-5CFVIwmGMxN7p7Rs3KRQmYlDVy47DN2MJQqtDOSVG9ww0xzOP0suCLDA/yRG1uFcPnTn/Ru6lwAH6nllqV75FQ==}
     engines: {node: '>= 14.0.0'}
     peerDependencies:
@@ -1281,7 +1508,7 @@ packages:
       '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7)(pg@8.11.5)
       fs-extra: 11.1.1
       knex: 2.5.1(pg@8.11.5)
-      umzug: 3.3.1
+      umzug: 3.3.1(@types/node@20.11.30)
     transitivePeerDependencies:
       - '@mikro-orm/entity-generator'
       - '@types/node'
@@ -1314,7 +1541,7 @@ packages:
     dependencies:
       '@mikro-orm/core': 5.9.7(@mikro-orm/migrations@5.9.7)(@mikro-orm/postgresql@5.9.7)
       '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.7)(@mikro-orm/migrations@5.9.7)(pg@8.11.3)
-      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.7)(@types/node@20.11.30)(pg@8.11.5)
       pg: 8.11.3
     transitivePeerDependencies:
       - better-sqlite3
@@ -1345,7 +1572,7 @@ packages:
     dependencies:
       '@mikro-orm/core': 5.9.8
       '@mikro-orm/knex': 5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7)(pg@8.11.3)
-      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)(@types/node@20.11.30)(pg@8.11.5)
       pg: 8.11.3
     transitivePeerDependencies:
       - better-sqlite3
@@ -1530,23 +1757,6 @@ packages:
     engines: {node: '>=12.4.0'}
     dev: true
 
-  /@oclif/command@1.8.36(@oclif/config@1.18.17):
-    resolution: {integrity: sha512-/zACSgaYGtAQRzc7HjzrlIs14FuEYAZrMOEwicRoUnZVyRunG4+t5iSEeQu0Xy2bgbCD0U1SP/EdeNZSTXRwjQ==}
-    engines: {node: '>=12.0.0'}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    peerDependencies:
-      '@oclif/config': ^1
-    dependencies:
-      '@oclif/config': 1.18.17
-      '@oclif/errors': 1.3.6
-      '@oclif/help': 1.0.15(supports-color@8.1.1)
-      '@oclif/parser': 3.8.17
-      debug: 4.4.3(supports-color@8.1.1)
-      semver: 7.7.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@oclif/command@1.8.36(@oclif/config@1.18.17)(supports-color@8.1.1):
     resolution: {integrity: sha512-/zACSgaYGtAQRzc7HjzrlIs14FuEYAZrMOEwicRoUnZVyRunG4+t5iSEeQu0Xy2bgbCD0U1SP/EdeNZSTXRwjQ==}
     engines: {node: '>=12.0.0'}
@@ -1722,7 +1932,7 @@ packages:
     resolution: {integrity: sha512-5EwMtOqvJMMa3HbmxLlF74e+3/HhwBTMcvt3nqVJgGCozO6hzIPOBlwm8mGVNR9SN2IJpxSnlxczyDjcn7qIyw==}
     dev: true
 
-  /@rushstack/node-core-library@5.13.0:
+  /@rushstack/node-core-library@5.13.0(@types/node@20.11.30):
     resolution: {integrity: sha512-IGVhy+JgUacAdCGXKUrRhwHMTzqhWwZUI+qEPcdzsb80heOw0QPbhhoVsoiMF7Klp8eYsp7hzpScMXmOa3Uhfg==}
     peerDependencies:
       '@types/node': '*'
@@ -1730,6 +1940,7 @@ packages:
       '@types/node':
         optional: true
     dependencies:
+      '@types/node': 20.11.30
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
       ajv-formats: 3.0.1(ajv@8.13.0)
@@ -1740,7 +1951,7 @@ packages:
       semver: 7.5.4
     dev: false
 
-  /@rushstack/terminal@0.15.2:
+  /@rushstack/terminal@0.15.2(@types/node@20.11.30):
     resolution: {integrity: sha512-7Hmc0ysK5077R/IkLS9hYu0QuNafm+TbZbtYVzCMbeOdMjaRboLKrhryjwZSRJGJzu+TV1ON7qZHeqf58XfLpA==}
     peerDependencies:
       '@types/node': '*'
@@ -1748,14 +1959,15 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@rushstack/node-core-library': 5.13.0
+      '@rushstack/node-core-library': 5.13.0(@types/node@20.11.30)
+      '@types/node': 20.11.30
       supports-color: 8.1.1
     dev: false
 
-  /@rushstack/ts-command-line@4.23.7:
+  /@rushstack/ts-command-line@4.23.7(@types/node@20.11.30):
     resolution: {integrity: sha512-Gr9cB7DGe6uz5vq2wdr89WbVDKz0UeuFEn5H2CfWDe7JvjFFaiV15gi6mqDBTbHhHCWS7w8mF1h3BnIfUndqdA==}
     dependencies:
-      '@rushstack/terminal': 0.15.2
+      '@rushstack/terminal': 0.15.2(@types/node@20.11.30)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -1806,7 +2018,6 @@ packages:
     resolution: {integrity: sha512-dHM6ZxwlmuZaRmUPfv1p+KrdD1Dci04FbdEm/9wEMouFqxYoFl5aMkt0VMAUtYRQDyYvD41WJLukhq/ha3YuTw==}
     dependencies:
       undici-types: 5.26.5
-    dev: true
 
   /@types/prop-types@15.7.15:
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
@@ -4390,11 +4601,11 @@ packages:
   /inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  /inquirer@8.2.7:
+  /inquirer@8.2.7(@types/node@20.11.30):
     resolution: {integrity: sha512-UjOaSel/iddGZJ5xP/Eixh6dY1XghiBw4XK13rCCIJcJfyhhoul/7KhLLUGtebEj6GDYM6Vnx/mVsjx2L/mFIA==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      '@inquirer/external-editor': 1.0.2
+      '@inquirer/external-editor': 1.0.2(@types/node@20.11.30)
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
@@ -5283,6 +5494,62 @@ packages:
       - debug
     dev: false
 
+  /medusa-test-utils@1.1.45(@medusajs/medusa@1.12.2)(@medusajs/modules-sdk@1.12.12)(@mikro-orm/core@5.9.8)(@types/node@20.11.30)(express@4.21.2)(pg@8.11.5)(typeorm@0.3.26):
+    resolution: {integrity: sha512-GwkX409LuTeTwAHoJcvXi1KrrXXPHcdqe41e49uLpbMSoclM8lEJRUg14NpXrlRGHh0v/zJByGYDhngkCMesmw==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@medusajs/medusa': '>1.19'
+      '@medusajs/modules-sdk': ^1.12.10
+      axios: ^0.28.0
+      express: ^4.18.3
+      get-port: ^5.1.0
+      pg-god: ^1.0.12
+      typeorm: ^0.2.43
+    peerDependenciesMeta:
+      '@medusajs/medusa':
+        optional: true
+      axios:
+        optional: true
+      express:
+        optional: true
+      get-port:
+        optional: true
+      pg-god:
+        optional: true
+      typeorm:
+        optional: true
+    dependencies:
+      '@medusajs/medusa': 1.12.2(@medusajs/types@1.11.17)(@mikro-orm/core@5.9.8)(@types/ioredis-mock@8.2.6)(@types/node@20.11.30)(medusa-interfaces@1.3.10)(pg@8.11.5)(typeorm@0.3.26)
+      '@medusajs/modules-sdk': 1.12.12(@types/node@20.11.30)
+      '@medusajs/utils': 1.11.11(@types/node@20.11.30)(pg@8.11.5)
+      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)(@types/node@20.11.30)(pg@8.11.5)
+      '@mikro-orm/postgresql': 5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7)
+      express: 4.21.2
+      medusa-core-utils: 1.2.3
+      randomatic: 3.1.1
+      typeorm: 0.3.26(ioredis@5.7.0)(pg@8.11.5)(reflect-metadata@0.2.2)
+    transitivePeerDependencies:
+      - '@mikro-orm/better-sqlite'
+      - '@mikro-orm/core'
+      - '@mikro-orm/entity-generator'
+      - '@mikro-orm/mariadb'
+      - '@mikro-orm/migrations-mongodb'
+      - '@mikro-orm/mongodb'
+      - '@mikro-orm/mysql'
+      - '@mikro-orm/seeder'
+      - '@mikro-orm/sqlite'
+      - '@types/node'
+      - better-sqlite3
+      - mssql
+      - mysql
+      - mysql2
+      - pg
+      - pg-native
+      - sqlite3
+      - supports-color
+      - tedious
+    dev: false
+
   /medusa-test-utils@1.1.45(@medusajs/medusa@1.12.2)(@medusajs/modules-sdk@1.12.12)(@mikro-orm/core@5.9.8)(axios@1.7.7)(express@4.21.2)(typeorm@0.3.26):
     resolution: {integrity: sha512-GwkX409LuTeTwAHoJcvXi1KrrXXPHcdqe41e49uLpbMSoclM8lEJRUg14NpXrlRGHh0v/zJByGYDhngkCMesmw==}
     engines: {node: '>=16'}
@@ -5314,62 +5581,6 @@ packages:
       '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)
       '@mikro-orm/postgresql': 5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7)
       axios: 1.7.7
-      express: 4.21.2
-      medusa-core-utils: 1.2.3
-      randomatic: 3.1.1
-      typeorm: 0.3.26(ioredis@5.7.0)(pg@8.11.5)(reflect-metadata@0.2.2)
-    transitivePeerDependencies:
-      - '@mikro-orm/better-sqlite'
-      - '@mikro-orm/core'
-      - '@mikro-orm/entity-generator'
-      - '@mikro-orm/mariadb'
-      - '@mikro-orm/migrations-mongodb'
-      - '@mikro-orm/mongodb'
-      - '@mikro-orm/mysql'
-      - '@mikro-orm/seeder'
-      - '@mikro-orm/sqlite'
-      - '@types/node'
-      - better-sqlite3
-      - mssql
-      - mysql
-      - mysql2
-      - pg
-      - pg-native
-      - sqlite3
-      - supports-color
-      - tedious
-    dev: false
-
-  /medusa-test-utils@1.1.45(@medusajs/medusa@1.12.2)(@medusajs/modules-sdk@1.12.12)(@mikro-orm/core@5.9.8)(express@4.21.2)(pg@8.11.5)(typeorm@0.3.26):
-    resolution: {integrity: sha512-GwkX409LuTeTwAHoJcvXi1KrrXXPHcdqe41e49uLpbMSoclM8lEJRUg14NpXrlRGHh0v/zJByGYDhngkCMesmw==}
-    engines: {node: '>=16'}
-    peerDependencies:
-      '@medusajs/medusa': '>1.19'
-      '@medusajs/modules-sdk': ^1.12.10
-      axios: ^0.28.0
-      express: ^4.18.3
-      get-port: ^5.1.0
-      pg-god: ^1.0.12
-      typeorm: ^0.2.43
-    peerDependenciesMeta:
-      '@medusajs/medusa':
-        optional: true
-      axios:
-        optional: true
-      express:
-        optional: true
-      get-port:
-        optional: true
-      pg-god:
-        optional: true
-      typeorm:
-        optional: true
-    dependencies:
-      '@medusajs/medusa': 1.12.2(@medusajs/types@1.11.17)(@mikro-orm/core@5.9.8)(@types/ioredis-mock@8.2.6)(medusa-interfaces@1.3.10)(pg@8.11.5)(typeorm@0.3.26)
-      '@medusajs/modules-sdk': 1.12.12
-      '@medusajs/utils': 1.11.11(pg@8.11.5)
-      '@mikro-orm/migrations': 5.9.7(@mikro-orm/core@5.9.8)(pg@8.11.5)
-      '@mikro-orm/postgresql': 5.9.7(@mikro-orm/core@5.9.8)(@mikro-orm/migrations@5.9.7)
       express: 4.21.2
       medusa-core-utils: 1.2.3
       randomatic: 3.1.1
@@ -6041,7 +6252,7 @@ packages:
     engines: {node: '>=8.0.0'}
     hasBin: true
     dependencies:
-      '@oclif/command': 1.8.36(@oclif/config@1.18.17)
+      '@oclif/command': 1.8.36(@oclif/config@1.18.17)(supports-color@8.1.1)
       '@oclif/config': 1.18.17
       '@oclif/plugin-help': 3.3.1
       cli-ux: 5.6.7(@oclif/config@1.18.17)
@@ -7511,11 +7722,11 @@ packages:
     hasBin: true
     dev: false
 
-  /umzug@3.3.1:
+  /umzug@3.3.1(@types/node@20.11.30):
     resolution: {integrity: sha512-jG3C35jti1YnCuH/k3fJEfHbnIG9c3Q9ITZ0B9eWwnXngh/AUd0mRHv8OdpE2Q9VoK7tB6xL990JrMCr0LtfNA==}
     engines: {node: '>=12'}
     dependencies:
-      '@rushstack/ts-command-line': 4.23.7
+      '@rushstack/ts-command-line': 4.23.7(@types/node@20.11.30)
       emittery: 0.13.1
       glob: 8.1.0
       pony-cause: 2.1.11
@@ -7536,7 +7747,6 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-    dev: true
 
   /unique-string@2.0.0:
     resolution: {integrity: sha512-uNaeirEPvpZWSgzwsPGtU2zVSTrn/8L5q/IexZmH0eH6SA73CmAA5U4GwORTxQAZs95TAXLNqeLoPPNO5gZfWg==}
