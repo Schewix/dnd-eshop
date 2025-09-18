@@ -1,0 +1,13 @@
+{
+  "name": "admin",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'Admin app TBD'",
+    "build": "echo 'Admin build TBD'",
+    "lint": "echo 'Admin lint TBD'",
+    "test": "echo 'Admin test TBD'"
+  },
+  "dependencies": {}
+}

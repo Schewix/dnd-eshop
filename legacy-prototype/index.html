@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drak &amp; Kostky | Český D&D e-shop</title>
+    <meta
+      name="description"
+      content="Drak & Kostky je český e-shop s oficiálními Dungeons & Dragons produkty, doplňky a limitovanými edicemi. Fungujeme na principu dropshippingu, takže si užijete rychlé dodání přímo od našich partnerů."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="top-bar__info">
+        <span>📦 Objednávky odesíláme přímo od oficiálních distributorů D&D.</span>
+        <span>💬 Zákaznická linka: +420 777 123 456</span>
+      </div>
+    </header>
+
+    <nav class="main-nav">
+      <div class="container">
+        <a class="logo" href="#hero">Drak &amp; Kostky</a>
+        <button class="nav-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+          <li><a href="#produkty">Produkty</a></li>
+          <li><a href="#dropshipping">Jak funguje</a></li>
+          <li><a href="#vyhody">Výhody</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+        <div class="cart-summary" id="cart-summary" aria-label="Otevřít košík">
+          <span class="cart-summary__icon">🛒</span>
+          <span class="cart-summary__count" id="cart-count">0</span>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="container hero__content">
+          <div class="hero__text">
+            <p class="hero__tag">Oficiální partner Wizards of the Coast</p>
+            <h1>Český e-shop pro Dungeons &amp; Dragons dobrodruhy</h1>
+            <p>
+              Vydejte se na epickou výpravu s prémiovými kostkami, propracovanými
+              miniaturami a oficiálními příručkami. Vše skladem u našich
+              partnerských distributorů, kteří objednávky odesílají přímo k vám.
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#produkty">Prohlédnout produkty</a>
+              <a class="btn btn--ghost" href="#dropshipping">Jak funguje dropshipping</a>
+            </div>
+            <ul class="hero__badges">
+              <li>✔️ Oficiální licence D&amp;D</li>
+              <li>🚚 Odeslání do 48 hodin</li>
+              <li>🌍 Dodání po celé EU</li>
+            </ul>
+          </div>
+          <div class="hero__visual">
+            <div class="hero__visual-card">
+              <img
+                src="https://images.unsplash.com/photo-1612036782180-6f0b6cd649b6?auto=format&fit=crop&w=800&q=80"
+                alt="Sada D&D kostek"
+              />
+              <div class="hero__visual-overlay">
+                <p>Limitované edice kostek</p>
+                <span>už od 649 Kč</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="usp" id="vyhody">
+        <div class="container">
+          <div class="section-header">
+            <h2>Proč nakupovat u nás</h2>
+            <p>
+              Spojujeme komunitu hráčů D&amp;D s nejlepšími oficiálními produkty a
+              jistotou rychlého doručení.
+            </p>
+          </div>
+          <div class="usp__grid">
+            <article>
+              <h3>Garance originality</h3>
+              <p>
+                Nakupujete přímo z distribuční sítě Wizards of the Coast a
+                ověřených výrobců doplňků.
+              </p>
+            </article>
+            <article>
+              <h3>Průběžné novinky</h3>
+              <p>
+                Pravidelně přidáváme nové oficiální moduly, kampaně a limitované
+                runy.
+              </p>
+            </article>
+            <article>
+              <h3>Flexibilní platba</h3>
+              <p>
+                Nabízíme platbu kartou, bankovním převodem, Apple Pay i Twisto na
+                fakturu.
+              </p>
+            </article>
+            <article>
+              <h3>Podpora hráčů</h3>
+              <p>
+                Zkušení DM a hráči na chatu vám poradí s výběrem příruček nebo s
+                tvorbou kampaně.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="product-filters" aria-label="Filtr produktů">
+        <div class="container">
+          <form class="filters" id="filters">
+            <div class="filters__group">
+              <label for="category-filter">Kategorie</label>
+              <select id="category-filter" name="category">
+                <option value="">Vše</option>
+              </select>
+            </div>
+            <div class="filters__group">
+              <label for="brand-filter">Značka</label>
+              <select id="brand-filter" name="brand">
+                <option value="">Vše</option>
+              </select>
+            </div>
+            <div class="filters__group">
+              <label for="price-filter">Cena do</label>
+              <select id="price-filter" name="price">
+                <option value="">Bez limitu</option>
+                <option value="1000">1 000 Kč</option>
+                <option value="1500">1 500 Kč</option>
+                <option value="2000">2 000 Kč</option>
+                <option value="3000">3 000 Kč</option>
+              </select>
+            </div>
+            <div class="filters__group">
+              <label class="checkbox">
+                <input type="checkbox" id="stock-filter" />
+                <span>Skladem u partnera</span>
+              </label>
+            </div>
+            <button class="btn btn--ghost" type="reset">Vymazat</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="products" id="produkty">
+        <div class="container">
+          <div class="section-header">
+            <h2>Vyberte si své vybavení</h2>
+            <p>
+              Kompletní nabídka oficiálních D&amp;D produktů s jasným statusem
+              dostupnosti díky dropshipping napojení.
+            </p>
+          </div>
+          <div class="product-grid" id="product-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="dropshipping" id="dropshipping">
+        <div class="container">
+          <div class="section-header">
+            <h2>Jak funguje náš dropshipping</h2>
+            <p>
+              Rychlá logistika a transparentnost. Vy si vyberete produkty, my je
+              rezervujeme u dodavatele a ten je odešle přímo k vám.
+            </p>
+          </div>
+          <div class="dropshipping__grid">
+            <article>
+              <span class="step">1</span>
+              <h3>Napojení na distributory</h3>
+              <p>
+                V reálném čase vidíme skladovost u partnerů v EU a USA. Zobrazené
+                produkty jsou opravdu dostupné.
+              </p>
+            </article>
+            <article>
+              <span class="step">2</span>
+              <h3>Automatické objednávky</h3>
+              <p>
+                Jakmile zaplatíte, odešleme objednávku distribučnímu partnerovi a
+                zajistíme fakturaci včetně DPH.
+              </p>
+            </article>
+            <article>
+              <span class="step">3</span>
+              <h3>Tracking zásilky</h3>
+              <p>
+                Obdržíte sledovací číslo i přibližný čas doručení. Zákaznický
+                servis řeší případné reklamace.
+              </p>
+            </article>
+            <article>
+              <span class="step">4</span>
+              <h3>Podpora po dodání</h3>
+              <p>
+                Při dotazech vám pomůže tým hráčů, který poradí s pravidly i
+                rozšířeními.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="partners" aria-label="Naši partneři">
+        <div class="container">
+          <div class="section-header">
+            <h2>Partnerská síť</h2>
+            <p>
+              Spolupracujeme s oficiálními licencovanými velkoobchody a výrobci
+              prémiových doplňků.
+            </p>
+          </div>
+          <div class="partner-logos">
+            <span>Wizards Direct</span>
+            <span>Legend Dice UK</span>
+            <span>Gale Force Nine</span>
+            <span>Critical Role Shop</span>
+            <span>Beadle &amp; Grimm's</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="testimonials">
+        <div class="container">
+          <div class="section-header">
+            <h2>Hráči o nás říkají</h2>
+            <p>Reference z české D&amp;D komunity.</p>
+          </div>
+          <div class="testimonial-grid">
+            <article>
+              <p>
+                „Balíček z USA dorazil za 6 dní a kostky vypadají ještě lépe než
+                na fotkách. Díky za doporučení!“
+              </p>
+              <span>— Petra, DM z Brna</span>
+            </article>
+            <article>
+              <p>
+                „Objednali jsme startovní set pro nováčky a přišel kompletní,
+                český manuál byl součástí balení.“
+              </p>
+              <span>— Martin, klub Draci z Vysočiny</span>
+            </article>
+            <article>
+              <p>
+                „Líbí se mi, že vidím aktuální skladovost. Dropshipping funguje
+                skvěle, žádné starosti se clem.“
+              </p>
+              <span>— Jana, hráčka z Prahy</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="newsletter" aria-label="Přihláška k odběru">
+        <div class="container newsletter__content">
+          <div>
+            <h2>Získávejte novinky o limitovaných edicích</h2>
+            <p>
+              Odešleme vám maximálně jeden e-mail měsíčně s novými produkty,
+              akcemi a tipy pro vaše kampaně.
+            </p>
+          </div>
+          <form class="newsletter__form">
+            <input type="email" placeholder="Vaše e-mailová adresa" required />
+            <button class="btn btn--primary" type="submit">Odebírat</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="faq" id="faq" aria-label="Často kladené dotazy">
+        <div class="container">
+          <div class="section-header">
+            <h2>FAQ</h2>
+            <p>Vše, co vás zajímá o nákupu přes dropshipping.</p>
+          </div>
+          <div class="faq__items">
+            <details>
+              <summary>Jaká je doba doručení?</summary>
+              <p>
+                U produktů skladem v EU doručujeme do 3 pracovních dní. U USA
+                počítejte s 5–8 dny včetně proclení, o které se staráme my.
+              </p>
+            </details>
+            <details>
+              <summary>Řešíte reklamace a vrácení zboží?</summary>
+              <p>
+                Ano, reklamace zajišťujeme společně s distributorem. Stačí nám
+                napsat číslo objednávky, zbytek vyřídíme my.
+              </p>
+            </details>
+            <details>
+              <summary>Je možné platit na fakturu?</summary>
+              <p>
+                Pro herní kluby a školy nabízíme možnost fakturace se splatností
+                14 dní. Napište nám předem.
+              </p>
+            </details>
+            <details>
+              <summary>Mohu sledovat stav zásilky?</summary>
+              <p>
+                Ano, každý balík má sledovací číslo. Posíláme ho e-mailem a je
+                dostupné i v našem zákaznickém portálu.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="kontakt">
+      <div class="container footer__grid">
+        <div>
+          <h3>Drak &amp; Kostky</h3>
+          <p>
+            Specializovaný D&amp;D e-shop s dropshipping logistikou a podporou
+            české komunity.
+          </p>
+        </div>
+        <div>
+          <h4>Kontakt</h4>
+          <ul>
+            <li>E-mail: podpora@drakakostky.cz</li>
+            <li>Tel: +420 777 123 456</li>
+            <li>Sídlo: Dračí hrad 13, Praha</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Užitečné odkazy</h4>
+          <ul>
+            <li><a href="#produkty">Katalog</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#dropshipping">Logistika</a></li>
+            <li><a href="#vyhody">Proč my</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Právní</h4>
+          <ul>
+            <li>Obchodní podmínky</li>
+            <li>Ochrana osobních údajů</li>
+            <li>Cookies</li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer__note">© 2024 Drak &amp; Kostky. Všechna práva vyhrazena.</p>
+    </footer>
+
+    <div class="cart" id="cart" aria-live="polite" aria-hidden="true">
+      <div class="cart__header">
+        <h2>Košík</h2>
+        <button class="cart__close" id="cart-close" aria-label="Zavřít košík">×</button>
+      </div>
+      <div class="cart__body" id="cart-items">
+        <p class="cart__empty" id="cart-empty">Váš košík je zatím prázdný.</p>
+      </div>
+      <div class="cart__footer">
+        <div class="cart__summary">
+          <span>Mezisoučet</span>
+          <strong id="cart-total">0 Kč</strong>
+        </div>
+        <p class="cart__note">
+          Objednávkou potvrzujete souhlas s tím, že zboží bude odesláno přímo od
+          partnerského distributora.
+        </p>
+        <button class="btn btn--primary" type="button" id="checkout-btn">Pokračovat k objednávce</button>
+      </div>
+    </div>
+
+    <div class="checkout" id="checkout" aria-hidden="true">
+      <div class="checkout__dialog" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+        <button class="checkout__close" id="checkout-close" aria-label="Zavřít objednávku">×</button>
+        <h2 id="checkout-title">Dokončení objednávky</h2>
+        <p class="checkout__intro">
+          Vyplňte prosím doručovací údaje. Platba a fakturace proběhne automaticky přes propojené systémy partnerů.
+        </p>
+        <div class="checkout__grid">
+          <form class="checkout-form" id="checkout-form">
+            <div class="form-row">
+              <label>Jméno a příjmení
+                <input type="text" name="name" required autocomplete="name" />
+              </label>
+              <label>E-mail
+                <input type="email" name="email" required autocomplete="email" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label>Telefon
+                <input type="tel" name="phone" required autocomplete="tel" />
+              </label>
+              <label>Ulice a číslo
+                <input type="text" name="address" required autocomplete="address-line1" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label>Město
+                <input type="text" name="city" required autocomplete="address-level2" />
+              </label>
+              <label>PSČ
+                <input type="text" name="zip" required autocomplete="postal-code" />
+              </label>
+            </div>
+            <label>Země
+              <input type="text" name="country" required value="Česká republika" />
+            </label>
+            <label>Doprava
+              <select id="checkout-shipping" required></select>
+            </label>
+            <label>Platba
+              <select id="checkout-payment" required></select>
+            </label>
+            <label>Poznámka k objednávce
+              <textarea name="note" rows="3" placeholder="Upřesněte doručení, klub, fakturaci..."></textarea>
+            </label>
+            <button class="btn btn--primary" type="submit" id="checkout-submit">Odeslat objednávku</button>
+          </form>
+          <aside class="checkout-summary">
+            <h3>Souhrn objednávky</h3>
+            <div id="checkout-summary" aria-live="polite"></div>
+            <p class="checkout-summary__hint">
+              Po potvrzení objednávky automaticky zašleme instrukce dodavateli a e-mailem obdržíte fakturu.
+            </p>
+          </aside>
+        </div>
+        <div class="checkout__status" id="checkout-status" hidden aria-live="polite"></div>
+      </div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

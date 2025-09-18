@@ -1,0 +1,15 @@
+node_modules
+.pnpm-store
+.env
+.env.*
+apps/medusa/.env
+apps/medusa/dist
+apps/**/.next
+apps/**/out
+apps/**/.turbo
+apps/**/coverage
+apps/**/.DS_Store
+legacy-prototype/data/orders
+legacy-prototype/data/invoices
+legacy-prototype/data/outbox
+legacy-prototype/data/supplier-queue
