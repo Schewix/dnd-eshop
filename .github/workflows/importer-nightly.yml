@@ -2,7 +2,7 @@
 name: Importer Nightly
 on:
   schedule:
-    - cron: '0 21 * * *'   # cca 23:00 v ČR v zimě
+    - cron: '0 21 * * *'   # každý den ~23:00 v ČR (podle DST)
   workflow_dispatch:
 
 jobs:
@@ -18,10 +18,12 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm -w install --frozen-lockfile
-      - run: pnpm --filter "./apps/importer" run build
+      - run: pnpm --filter "./apps/importer" run --if-present build
+
       - name: Run importer
         env:
           IMPORTER_CONFIG: ${{ secrets.IMPORTER_CONFIG_JSON }}
           MEDUSA_BACKEND_URL: ${{ secrets.MEDUSA_BACKEND_URL }}
-          MEDUSA_API_KEY: ${{ secrets.MEDUSA_API_KEY }}
+          ALPHA_TOKEN: ${{ secrets.ALPHA_TOKEN }}
+          BETA_KEY: ${{ secrets.BETA_KEY }}
         run: pnpm --filter "./apps/importer" start

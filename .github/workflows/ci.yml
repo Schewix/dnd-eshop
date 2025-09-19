@@ -17,12 +17,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 1) PNPM nainstalovat jako první (spolehlivé na všech runnerech)
       - uses: pnpm/action-setup@v4
         with:
           run_install: false
 
-      # 2) Node + cache pro PNPM (cachuje podle pnpm-lock.yaml v kořeni)
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -31,7 +29,6 @@ jobs:
 
       - run: pnpm -v
 
-      # Jedna instalace pro celé monorepo
       - name: Install workspace
         run: pnpm -w install --frozen-lockfile
 
@@ -49,3 +46,12 @@ jobs:
           NEXT_PUBLIC_MEDUSA_URL: ${{ secrets.NEXT_PUBLIC_MEDUSA_URL }}
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
           REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
+
+      - name: Run importer (smoke)
+        if: matrix.app == 'importer'
+        env:
+          IMPORTER_CONFIG: ${{ secrets.IMPORTER_CONFIG_JSON }}
+          MEDUSA_BACKEND_URL: ${{ secrets.MEDUSA_BACKEND_URL }}
+          ALPHA_TOKEN: ${{ secrets.ALPHA_TOKEN }}
+          BETA_KEY: ${{ secrets.BETA_KEY }}
+        run: pnpm --filter "./apps/importer" start
