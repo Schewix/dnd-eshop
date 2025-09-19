@@ -6,8 +6,17 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false
   },
-  "include": ["src", "seed", "medusa-config.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src",
+    "seed",
+    "medusa-config.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

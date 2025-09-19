@@ -18,6 +18,8 @@ Tento dokument navazuje na Roadmapu a popisuje datový model, workflow importu a
 Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 
 ### 2.1 `supplier`
+>
+> ✅ Skeleton implementace entit/migrací žije v `apps/medusa/src/modules/supplier`.
 
 - `id` (uuid)
 - `name`
@@ -67,6 +69,8 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 - `last_error`
 
 > Implementace: vytvořit TypeORM entity v `apps/medusa/src/modules/supplier`, migrace (`medusa migration create`), service + repository.
+>
+> Poznámka: migrace předpokládá PostgreSQL rozšíření `uuid-ossp` (viz `CREATE EXTENSION` v souboru migrace).
 
 ## 3. Importní workflow
 
@@ -130,7 +134,7 @@ IMPORTER_CONFIG='[{"id":"legend","name":"Legend Dice","type":"json","endpoint":"
 
 ## 7. TODO checklist
 
-- [ ] Vydefinovat TypeORM entity + migrace.
+- [x] Vydefinovat TypeORM entity + migrace (skeleton vytvořen v apps/medusa/src/modules/supplier).
 - [ ] Implementovat Services/Repositories v Medusa.
 - [ ] Přidat validační schémata a transformace pro prvního dodavatele.
 - [ ] Přidat Slack/e-mail alerting.
