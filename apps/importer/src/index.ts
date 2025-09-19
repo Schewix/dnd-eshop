@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { loadConfig } from './lib/config.js';
 import { getLogger } from './lib/logger.js';
 import { importSupplierCatalog } from './tasks/importSupplierCatalog.js';
