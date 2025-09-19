@@ -18,6 +18,7 @@ Tento dokument navazuje na Roadmapu a popisuje datový model, workflow importu a
 Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 
 ### 2.1 `supplier`
+
 - `id` (uuid)
 - `name`
 - `code` (unikátní string, např. `legend_dice`)
@@ -28,6 +29,7 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 - `active` (bool)
 
 ### 2.2 `supplier_product`
+
 - `id`
 - `supplier_id`
 - `supplier_sku`
@@ -38,6 +40,7 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 - `medusa_product_id` (nullable, pro mapování na interní katalog)
 
 ### 2.3 `supplier_variant`
+
 - `id`
 - `supplier_product_id`
 - `supplier_variant_id`
@@ -47,12 +50,14 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 - `price`
 
 ### 2.4 `supplier_inventory_snapshot`
+
 - `id`
 - `supplier_id`
 - `captured_at`
 - `metrics` (jsonb)
 
 ### 2.5 `supplier_order`
+
 - `id`
 - `order_id` (Medusa order)
 - `supplier_id`
@@ -66,6 +71,7 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 ## 3. Importní workflow
 
 ### 3.1 Cron/Worker
+
 - Použij `apps/importer` (Node + TS + axios + zod).
 - Spouštět 4× denně (0:00, 6:00, 12:00, 18:00) – napojit na BullMQ/Temporal později.
 - Workflow:
@@ -77,12 +83,14 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
   6. Uložit snapshot (inventář a ceny).
 
 ### 3.2 Mapování SKU/variant
+
 - V Medusa přidat custom service `SupplierService` pro propojení `product_variant.metadata` s `supplier_variant_id`.
 - Při importu:
   - Pokud existuje `supplier_product.medusa_product_id` → update.
   - Jinak vytvořit draft product a označit k manuálnímu schválení.
 
 ### 3.3 Failover scénáře
+
 - Pokud feed vrátí položku se `stock=0`, přepnout variantu na `backorder`.
 - Pokud položka zmizí z feedu, poslat alert (Slack/e-mail) a označit variantu jako `discontinued`.
 - Logovat chyby (`supplier_order.last_error`).
@@ -90,6 +98,7 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 ## 4. Automatické odesílání objednávek
 
 ### 4.1 Hook v Medusa
+
 - V Medusa přidat subscriber na `order.placed` nebo `order.payment_captured` event.
 - Po `paid`:
   1. Načíst položky → zjistit `supplier_variant.medusa_variant_id`.
@@ -98,6 +107,7 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
   4. Vyvolat job (BullMQ) pro odeslání objednávky (REST/CSV/SFTP dle dodavatele).
 
 ### 4.2 Tracking
+
 - Dodavatel vrací tracking číslo → zapisuje se `supplier_order.tracking_number`, update `order.fulfillment`
 - Chyby posílat do Slacku / e-mailu.
 
@@ -126,4 +136,3 @@ IMPORTER_CONFIG='[{"id":"legend","name":"Legend Dice","type":"json","endpoint":"
 - [ ] Přidat Slack/e-mail alerting.
 - [ ] Implementovat supplier_order dispatch.
 - [ ] Přidat integrační testy.
-
