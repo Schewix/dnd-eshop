@@ -14,7 +14,8 @@
   "include": [
     "src",
     "seed",
-    "medusa-config.ts"
+    "medusa-config.ts",
+    "scripts/**/*"
   ],
   "exclude": [
     "node_modules"

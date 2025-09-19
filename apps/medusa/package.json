@@ -14,10 +14,13 @@
     "dotenv": "16.4.5",
     "pg": "8.11.5",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "0.3"
+    "typeorm": "0.3",
+    "@medusajs/modules-sdk": "1.12.12",
+    "awilix": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "20.11.30",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "@types/express": "4.17.21"
   }
 }

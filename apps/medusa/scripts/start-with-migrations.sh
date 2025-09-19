@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 1) spustí čekající migrace (bez interakce)
-npx medusa db:migrate
+# 1) ensure TypeScript is compiled
+npm run build -- --silent || pnpm run build --filter medusa --silent
 
-# (volitelně) pokud používáš linky v jádře/pluginu:
-npx medusa db:sync-links || true
+# 2) run custom supplier migration helper (safe to run repeatedly)
+node ./dist/scripts/run-supplier-migration.js || true
 
-# 2) nastartuj server – vezme si $PORT od Railway
+# 3) start Medusa API (will respect $PORT on Railway/Heroku)
 exec npx medusa start
