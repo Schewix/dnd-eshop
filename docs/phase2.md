@@ -71,10 +71,13 @@ Navrhujeme rozšířit Medusa o následující entity (TypeORM):
 > Implementace: vytvořit TypeORM entity v `apps/medusa/src/modules/supplier`, migrace (`medusa migration create`), service + repository.
 >
 > Poznámka: migrace předpokládá PostgreSQL rozšíření `uuid-ossp` (viz `CREATE EXTENSION` v souboru migrace).
+> Doporučený helper: `pnpm --filter medusa build && node apps/medusa/dist/scripts/run-supplier-migration.js`.
 
 ## 3. Importní workflow
 
 ### 3.1 Cron/Worker
+
+*Nově*: API endpointy `POST /admin/supplier-sync/(catalog|orders|alerts)` přijímají payloady z importeru (viz `SupplierSyncService`).
 
 - Použij `apps/importer` (Node + TS + axios + zod).
 - Spouštět 4× denně (0:00, 6:00, 12:00, 18:00) – napojit na BullMQ/Temporal později.
@@ -135,7 +138,7 @@ IMPORTER_CONFIG='[{"id":"legend","name":"Legend Dice","type":"json","endpoint":"
 ## 7. TODO checklist
 
 - [x] Vydefinovat TypeORM entity + migrace (skeleton vytvořen v apps/medusa/src/modules/supplier).
-- [ ] Implementovat Services/Repositories v Medusa.
+- [x] Implementovat Services/Repositories v Medusa (skeleton `SupplierSyncService` / vila loader).
 - [ ] Přidat validační schémata a transformace pro prvního dodavatele.
 - [ ] Přidat Slack/e-mail alerting.
 - [ ] Implementovat supplier_order dispatch.

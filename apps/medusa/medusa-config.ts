@@ -3,15 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
-type ModuleResolution = (moduleName: string) => string | undefined;
-
-const moduleResolutions: ModuleResolution[] = [];
-
 const rootDir = process.cwd();
 const isProduction = process.env.NODE_ENV === "production";
 const sourceDir = path.join(rootDir, "apps/medusa", isProduction ? "dist" : "src");
 
-export default {
+const config = {
   projectConfig: {
     redis_url: process.env.REDIS_URL || 'redis://localhost:6379',
     database_url: process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost/medusa',
@@ -33,5 +29,11 @@ export default {
       path.join(rootDir, 'node_modules/@medusajs/medusa/dist/migrations/*.js'),
     ],
   },
-  modulesConfig: moduleResolutions,
+  plugins: [],
 };
+
+export default config;
+if (typeof module !== "undefined") {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (module as any).exports = config;
+}
