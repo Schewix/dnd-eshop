@@ -8,6 +8,7 @@ import {
   pushAlerts,
   pushCatalog,
 } from '../lib/medusa.js';
+import { normalizeSampleSupplierItems, sampleSupplierSchema } from '../lib/supplierSchemas.js';
 
 interface ImportContext {
   supplier: SupplierConfig;
@@ -71,6 +72,8 @@ const fetchJsonFeed = async ({
   const data = Array.isArray(response.data) ? response.data : [response.data];
   logger.debug({ supplier: supplier.id, records: data.length }, 'Fetched supplier payload');
 
+  const normalizedItems = normalizeBySupplierId(data, supplier, logger);
+
   const payload: SupplierSyncPayload = {
     supplier: {
       code: supplier.id,
@@ -79,18 +82,47 @@ const fetchJsonFeed = async ({
       type: supplier.type,
       currency: supplier.priceListCurrency,
     },
-    items: data.map((item: any, index: number) => ({
-      externalId: item.id ?? item.sku ?? `${supplier.id}-${index}`,
-      sku: item.sku ?? item.id ?? `${supplier.id}-${index}`,
-      name: item.name,
-      ean: item.ean ?? item.isbn ?? null,
-      stock: item.stock ?? item.inventory ?? null,
-      price: item.price ?? null,
-      currency: item.currency ?? supplier.priceListCurrency,
-      attributes: item.attributes ?? item, // skeleton: pass-through for later mapping
-    })),
+    items: normalizedItems,
     syncedAt: new Date().toISOString(),
   };
 
   await pushCatalog(medusaClient, payload);
+};
+
+const normalizeBySupplierId = (
+  data: unknown[],
+  supplier: SupplierConfig,
+  logger: Logger,
+): SupplierSyncPayload['items'] => {
+  switch (supplier.id) {
+    case 'demo':
+    case 'sample': {
+      const parsed = sampleSupplierSchema.safeParse(data);
+      if (!parsed.success) {
+        logger.warn({ supplier: supplier.id, issues: parsed.error.issues }, 'Supplier data validation failed');
+        throw parsed.error;
+      }
+      return normalizeSampleSupplierItems(parsed.data, supplier.id, supplier.priceListCurrency);
+    }
+    default:
+      return data.map((item, index) => ({
+        externalId: typeof item === 'object' && item !== null && 'id' in item ? String((item as any).id) : `${supplier.id}-${index}`,
+        sku: typeof item === 'object' && item !== null && 'sku' in item ? String((item as any).sku) : `${supplier.id}-sku-${index}`,
+        name: getField(item, 'name'),
+        ean: getField(item, 'ean') ?? getField(item, 'isbn'),
+        stock: toNumber(getField(item, 'stock') ?? getField(item, 'inventory')),
+        price: toNumber(getField(item, 'price')),
+        currency: (getField(item, 'currency') as string | undefined) ?? supplier.priceListCurrency,
+        attributes: typeof item === 'object' && item !== null ? (item as Record<string, unknown>) : {},
+      }));
+  }
+};
+
+const getField = (item: unknown, key: string): any =>
+  typeof item === 'object' && item !== null && key in item ? (item as any)[key] : undefined;
+
+const toNumber = (value: any): number | undefined => {
+  if (value === null || value === undefined) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
 };
