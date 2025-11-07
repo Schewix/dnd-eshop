@@ -10,7 +10,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "clsx": "2.1.0",
+    "datatables.net-bs5": "^2.3.4",
     "next": "14.2.3",
     "next-intl": "3.13.0",
     "react": "18.2.0",
