@@ -1,0 +1,12 @@
+{
+  "shippingMethods": [
+    { "id": "courier", "label": "Kurýr DPD (48 h)", "price": 149 },
+    { "id": "pickup", "label": "Zásilkovna výdejní místo", "price": 99 },
+    { "id": "express", "label": "Express DHL (24 h)", "price": 249 }
+  ],
+  "paymentMethods": [
+    { "id": "card", "label": "Online platba kartou" },
+    { "id": "bank-transfer", "label": "Bankovní převod" },
+    { "id": "cod", "label": "Dobírka" }
+  ]
+}

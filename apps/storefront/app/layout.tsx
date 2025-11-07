@@ -1,25 +1,22 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 import './globals.css';
+import type { Metadata } from 'next';
+import { Inter, Uncial_Antiqua } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-export const metadata = {
-  title: 'Arcane Forge | Komunitní dílna pro dobrodruhy',
+export const metadata: Metadata = {
+  title: 'Drak & Kostky | Český D&D e-shop',
   description:
-    'Komunitní portál a obchod Arcane Forge nabízí kostky, příručky a zdroje pro fanoušky stolních RPG.',
+    'Drak & Kostky je český specializovaný e-shop s oficiálními Dungeons & Dragons produkty, dropshipping logistikou a podporou komunity.',
 };
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const uncialAntiqua = Uncial_Antiqua({ weight: '400', subsets: ['latin'], variable: '--font-uncial' });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="cs" suppressHydrationWarning>
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-        />
-      </head>
-      <body className="bg-dark text-light">
-        <main className="min-vh-100">{children}</main>
+      <body className={`${inter.variable} ${uncialAntiqua.variable}`}>
+        <main>{children}</main>
       </body>
     </html>
   );

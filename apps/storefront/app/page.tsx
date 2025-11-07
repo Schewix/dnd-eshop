@@ -2,812 +2,950 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { type FormEvent, useEffect, useMemo, useState } from 'react';
+import optionsData from '../data/options.json';
+import productsData from '../data/products.json';
 
-const menuItems = [
-  { href: '#o-projektu', label: 'O projektu', icon: 'bi-magic' },
-  { href: '#nabidka', label: 'Nabídka', icon: 'bi-gem' },
-  { href: '#komunita', label: 'Komunita', icon: 'bi-people' },
-  { href: '#program', label: 'Program', icon: 'bi-calendar-event' },
-  { href: '#akademie', label: 'Akademie', icon: 'bi-mortarboard' },
-  { href: '#kontakt', label: 'Kontakt', icon: 'bi-envelope-open' },
+type Product = {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  brand: string;
+  price: number;
+  stock: boolean;
+  shipping: string;
+  image: string;
+  tags: string[];
+};
+
+type ShippingMethod = {
+  id: string;
+  label: string;
+  price: number;
+};
+
+type PaymentMethod = {
+  id: string;
+  label: string;
+};
+
+type Filters = {
+  category: string;
+  brand: string;
+  price: string;
+  stock: boolean;
+};
+
+type CartItem = {
+  id: string;
+  quantity: number;
+};
+
+type CheckoutStatus = {
+  type: 'success' | 'error';
+  message: string;
+};
+
+type NewsletterStatus = {
+  type: 'success' | 'error';
+  message: string;
+};
+
+const products = productsData as Product[];
+const { shippingMethods, paymentMethods } = optionsData as {
+  shippingMethods: ShippingMethod[];
+  paymentMethods: PaymentMethod[];
+};
+
+const formatPrice = (value: number) =>
+  new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK', maximumFractionDigits: 0 }).format(value);
+
+const navLinks = [
+  { href: '#produkty', label: 'Produkty' },
+  { href: '#dropshipping', label: 'Jak funguje' },
+  { href: '#vyhody', label: 'Výhody' },
+  { href: '#faq', label: 'FAQ' },
+  { href: '#kontakt', label: 'Kontakt' },
 ];
 
-const carouselSlides = [
+const uspBlocks = [
   {
-    title: 'Kreativní dílna pro dobrodruhy',
-    caption:
-      'Arcane Forge je místo, kde vznikají kampaně, malují se miniatury a potkávají se hráči stolních RPG.',
-    image:
-      'https://images.ctfassets.net/lt0wyz0e3ujo/arcaneWorkshop/0cf57ae3fdb1b6c8961f8c0ceee2437f/arcane-workshop.jpg',
+    title: 'Garance originality',
+    description: 'Nakupujete přímo z distribuční sítě Wizards of the Coast a ověřených výrobců doplňků.',
   },
   {
-    title: 'Prémiové vybavení a kostky',
-    caption:
-      'Vyberte si z exkluzivní nabídky kostek, terénů a herních deníků navržených našimi tvůrci.',
-    image:
-      'https://images.ctfassets.net/lt0wyz0e3ujo/premiumDice/ab8b922366df0f36c48c0faf5ebc975c/premium-dice.jpg',
+    title: 'Průběžné novinky',
+    description: 'Pravidelně přidáváme nové oficiální moduly, kampaně a limitované runy.',
   },
   {
-    title: 'Workshop pro nové Pány jeskyně',
-    caption:
-      'Naučíme vás, jak připravit první dobrodružství a vést kampaň, na kterou družina nikdy nezapomene.',
-    image:
-      'https://images.ctfassets.net/lt0wyz0e3ujo/dmWorkshop/2a71f82a3678e547b4f6b5f5b325a6dc/dm-workshop.jpg',
-  },
-];
-
-const highlightCards = [
-  {
-    title: 'Autorské produkty',
-    description:
-      'Navrhujeme vlastní kostky, deníky a tematické mapy inspirované českými legendami a folklórem.',
-    icon: 'bi-brush',
+    title: 'Flexibilní platba',
+    description: 'Platba kartou, bankovním převodem, Apple Pay i Twisto na fakturu.',
   },
   {
-    title: 'Program pro školy',
-    description:
-      'Pomáháme učitelům s adaptací RPG aktivit do výuky dějepisu, literatury i týmové spolupráce.',
-    icon: 'bi-bank',
-  },
-  {
-    title: 'Komunitní knihovna',
-    description:
-      'Sdílíme stovky modulů, jednorázovek a map zdarma členům klubu Arcane Forge.',
-    icon: 'bi-journal-richtext',
-  },
-];
-
-const tabPanels = [
-  {
-    id: 'tab-kostky',
-    title: 'Kolekce kostek',
-    icon: 'bi-dice-6',
-    description:
-      'Limitované série kovových i pryskyřicových kostek navržené našimi členy. Každá sada je ručně leštěna a balena v cestovním pouzdře.',
-  },
-  {
-    id: 'tab-workshopy',
-    title: 'Workshopy',
-    icon: 'bi-easel',
-    description:
-      'Týdenní tematické workshopy od zkušených vypravěčů, malířů miniatur a světotvůrců. Využíváme metody designu her i improvizace.',
-  },
-  {
-    id: 'tab-liga',
-    title: 'Liga vypravěčů',
-    icon: 'bi-trophy',
-    description:
-      'Celoroční liga pro Pány jeskyně, kteří chtějí získat zpětnou vazbu, sdílet modulární obsah a posouvat své vypravěčské dovednosti.',
-  },
-];
-
-const inventorySeeds = [
-  {
-    title: 'Sada kostek Aurora Borealis',
-    category: 'Kostky',
-    price: '349 Kč',
-    stock: 'Skladem',
-    focus: 'Světélkující pryskyřice',
-  },
-  {
-    title: 'Kovové kostky Obsidian Edge',
-    category: 'Kostky',
-    price: '1 299 Kč',
-    stock: 'Posledních 8 ks',
-    focus: 'Leštěná ocel',
-  },
-  {
-    title: 'Kronika Arcane Forge',
-    category: 'Deníky',
-    price: '599 Kč',
-    stock: 'Skladem',
-    focus: 'Ručně šitá vazba',
-  },
-  {
-    title: 'Startovní modul Hvozdní slavnosti',
-    category: 'Dobrodružství',
-    price: '289 Kč',
-    stock: 'Digitální',
-    focus: 'Festivalová zápletka',
-  },
-  {
-    title: 'Malířský workshop Miniatures 101',
-    category: 'Workshopy',
-    price: '1 150 Kč',
-    stock: 'Termíny 2× měsíčně',
-    focus: 'Techniky dry-brush',
-  },
-  {
-    title: 'Dungeon Tiles "Catacombs"',
-    category: 'Terén',
-    price: '1 999 Kč',
-    stock: 'Na objednávku',
-    focus: 'Magnetické spojení',
-  },
-  {
-    title: 'Balíček NPC portrétů Vol. 3',
-    category: 'Digitální obsah',
-    price: '199 Kč',
-    stock: 'Okamžitě ke stažení',
-    focus: '40 ilustrací',
-  },
-  {
-    title: 'Mistři improvizace – online kurz',
-    category: 'Akademie',
-    price: '1 890 Kč',
-    stock: 'Nový běh září',
-    focus: '4 moduly',
-  },
-  {
-    title: 'Sada emailových háčků pro DM',
-    category: 'Komunita',
-    price: '99 Kč',
-    stock: 'Členský benefit',
-    focus: '25 scénářů',
-  },
-  {
-    title: 'Kniha map "Čarotisk"',
-    category: 'Mapy',
-    price: '749 Kč',
-    stock: 'V tisku',
-    focus: 'Plátěná obálka',
+    title: 'Podpora hráčů',
+    description: 'Zkušení DM a hráči na chatu poradí s výběrem příruček i s tvorbou kampaně.',
   },
 ];
 
-const tableRecords = Array.from({ length: 50 }, (_, index) => {
-  const seed = inventorySeeds[index % inventorySeeds.length];
-  return {
-    id: index + 1,
-    code: `AF-${(index + 1).toString().padStart(3, '0')}`,
-    ...seed,
-    audience:
-      index % 4 === 0
-        ? 'Začátečníci'
-        : index % 4 === 1
-          ? 'Rodinné hraní'
-          : index % 4 === 2
-            ? 'Veteráni'
-            : 'Kluby',
-  };
-});
+const dropshippingSteps = [
+  {
+    step: '1',
+    title: 'Napojení na distributory',
+    description: 'Vidíme skladovost v reálném čase. Zobrazené produkty jsou opravdu dostupné.',
+  },
+  {
+    step: '2',
+    title: 'Automatické objednávky',
+    description: 'Po zaplacení odešleme objednávku partnerovi a zajistíme fakturaci včetně DPH.',
+  },
+  {
+    step: '3',
+    title: 'Tracking zásilky',
+    description: 'Dostanete sledovací číslo a čas doručení. Servis řeší i případné reklamace.',
+  },
+  {
+    step: '4',
+    title: 'Podpora po dodání',
+    description: 'Tým hráčů poradí s pravidly, rozšířeními i péčí o prémiové produkty.',
+  },
+];
 
-const upcomingEvents = [
+const partnerLogos = [
+  'Wizards Direct',
+  'Legend Dice UK',
+  'Gale Force Nine',
+  'Critical Role Shop',
+  "Beadle & Grimm's",
+];
+
+const testimonials = [
   {
-    title: 'Noční open gaming',
-    time: 'Každý pátek 18:00 – 00:00',
-    description: 'Volné hraní, matchmaking pro nové skupiny a sdílený bufet se speciální nabídkou kostek.',
+    quote:
+      '„Balíček z USA dorazil za 6 dní a kostky vypadají ještě lépe než na fotkách. Díky za doporučení!“',
+    author: 'Petra, DM z Brna',
   },
   {
-    title: 'Creative Jam: Navrhni dungeon',
-    time: '3. čtvrtek v měsíci',
-    description:
-      'Společná tvorba dungeonů, map a hádanek. Na konci večera si každý odnese tisknutelný PDF balíček.',
+    quote: '„Objednali jsme startovní set a český manuál byl součástí balení. Super servis!“',
+    author: 'Martin, klub Draci z Vysočiny',
   },
   {
-    title: 'Malování miniatur s mistry',
-    time: 'Sobota 9:00 – 15:00',
-    description:
-      'Praktický workshop s půjčenými airbrush stanicemi, pigmenty a konzultací zkušených malířů.',
+    quote: '„Líbí se mi, že vidím aktuální skladovost. Dropshipping funguje bez starostí.“',
+    author: 'Jana, hráčka z Prahy',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Jaká je doba doručení?',
+    answer:
+      'U produktů skladem v EU doručujeme do 3 pracovních dní. U USA počítejte s 5–8 dny, proclení řešíme za vás.',
+  },
+  {
+    question: 'Řešíte reklamace a vrácení zboží?',
+    answer:
+      'Ano, reklamace zajišťujeme společně s distributorem. Stačí číslo objednávky, zbytek vyřešíme my.',
+  },
+  {
+    question: 'Je možné platit na fakturu?',
+    answer: 'Pro kluby a školy nabízíme fakturaci se splatností 14 dní. Stačí nás kontaktovat předem.',
+  },
+  {
+    question: 'Mohu sledovat stav zásilky?',
+    answer:
+      'Ano, každý balík má sledovací číslo. Posíláme ho e-mailem a najdete ho i v zákaznickém portálu.',
   },
 ];
 
 export default function Page() {
+  const [navOpen, setNavOpen] = useState(false);
+  const [filters, setFilters] = useState<Filters>({ category: '', brand: '', price: '', stock: false });
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isCartOpen, setCartOpen] = useState(false);
+  const [isCheckoutOpen, setCheckoutOpen] = useState(false);
+  const [selectedShipping, setSelectedShipping] = useState<string>(shippingMethods[0]?.id ?? '');
+  const [selectedPayment, setSelectedPayment] = useState<string>(paymentMethods[0]?.id ?? '');
+  const [checkoutStatus, setCheckoutStatus] = useState<CheckoutStatus | null>(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [newsletterStatus, setNewsletterStatus] = useState<NewsletterStatus | null>(null);
+
+  const categories = useMemo(() => Array.from(new Set(products.map((product) => product.category))).sort(), []);
+  const brands = useMemo(() => Array.from(new Set(products.map((product) => product.brand))).sort(), []);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      if (filters.category && product.category !== filters.category) {
+        return false;
+      }
+      if (filters.brand && product.brand !== filters.brand) {
+        return false;
+      }
+      if (filters.price && product.price > Number(filters.price)) {
+        return false;
+      }
+      if (filters.stock && !product.stock) {
+        return false;
+      }
+      return true;
+    });
+  }, [filters]);
+
+  const detailedCartItems = useMemo(() => {
+    return cart
+      .map((item) => {
+        const product = products.find((candidate) => candidate.id === item.id);
+        if (!product) {
+          return null;
+        }
+        return { ...item, product };
+      })
+      .filter((value): value is { id: string; quantity: number; product: Product } => Boolean(value));
+  }, [cart]);
+
+  const cartCount = useMemo(() => detailedCartItems.reduce((sum, item) => sum + item.quantity, 0), [detailedCartItems]);
+  const cartSubtotal = useMemo(
+    () => detailedCartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
+    [detailedCartItems],
+  );
+
+  const shippingOption = shippingMethods.find((method) => method.id === selectedShipping) ?? shippingMethods[0];
+  const orderTotal = cartSubtotal + (shippingOption?.price ?? 0);
+
   useEffect(() => {
-    let table: { destroy: () => void } | undefined;
+    if (typeof window === 'undefined') {
+      return;
+    }
 
-    const loadEnhancements = async () => {
-      await import('bootstrap/dist/js/bootstrap.bundle.min.js');
-      const DataTable = (await import('datatables.net-bs5')).default;
-      if (typeof window !== 'undefined' && document.getElementById('catalogTable')) {
-        table = new DataTable('#catalogTable', {
-          paging: true,
-          searching: true,
-          ordering: true,
-          lengthChange: false,
-          pageLength: 10,
-          language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/cs.json',
-          },
-        });
+    const storedCart = window.localStorage.getItem('dk-cart');
+    if (storedCart) {
+      try {
+        const parsed = JSON.parse(storedCart) as CartItem[];
+        setCart(parsed);
+      } catch (error) {
+        console.warn('Failed to parse stored cart', error);
       }
-    };
-
-    loadEnhancements();
-
-    return () => {
-      if (table) {
-        table.destroy();
-      }
-    };
+    }
   }, []);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    window.localStorage.setItem('dk-cart', JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    const shouldLockScroll = isCartOpen || isCheckoutOpen;
+    document.body.classList.toggle('no-scroll', shouldLockScroll);
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [isCartOpen, isCheckoutOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setCartOpen(false);
+        setCheckoutOpen(false);
+        setNavOpen(false);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+    return undefined;
+  }, []);
+
+  const handleFilterChange = (name: keyof Filters, value: string | boolean) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const resetFilters = () => {
+    setFilters({ category: '', brand: '', price: '', stock: false });
+  };
+
+  const addToCart = (productId: string) => {
+    setCart((prev) => {
+      const existing = prev.find((item) => item.id === productId);
+      if (existing) {
+        return prev.map((item) =>
+          item.id === productId ? { ...item, quantity: item.quantity + 1 } : item,
+        );
+      }
+      return [...prev, { id: productId, quantity: 1 }];
+    });
+    setCartOpen(true);
+    setCheckoutOpen(false);
+  };
+
+  const removeFromCart = (productId: string) => {
+    setCart((prev) => prev.filter((item) => item.id !== productId));
+  };
+
+  const updateQuantity = (productId: string, delta: number) => {
+    setCart((prev) =>
+      prev
+        .map((item) => (item.id === productId ? { ...item, quantity: item.quantity + delta } : item))
+        .filter((item) => item.quantity > 0),
+    );
+  };
+
+  const handleCheckoutOpen = () => {
+    if (!detailedCartItems.length) {
+      setCheckoutStatus({ type: 'error', message: 'Košík je prázdný. Přidejte si produkty do objednávky.' });
+      setCheckoutOpen(false);
+      setCartOpen(true);
+      return;
+    }
+    if (!selectedShipping && shippingMethods[0]) {
+      setSelectedShipping(shippingMethods[0].id);
+    }
+    if (!selectedPayment && paymentMethods[0]) {
+      setSelectedPayment(paymentMethods[0].id);
+    }
+    setCheckoutStatus(null);
+    setCheckoutOpen(true);
+    setCartOpen(false);
+  };
+
+  const handleCheckoutClose = () => {
+    setCheckoutOpen(false);
+    setCheckoutStatus(null);
+    setCheckoutLoading(false);
+  };
+
+  const handleCheckoutSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!detailedCartItems.length) {
+      setCheckoutStatus({ type: 'error', message: 'Košík je prázdný. Přidejte si produkty do objednávky.' });
+      return;
+    }
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      customer: {
+        name: formData.get('name')?.toString().trim(),
+        email: formData.get('email')?.toString().trim(),
+        phone: formData.get('phone')?.toString().trim(),
+        address: formData.get('address')?.toString().trim(),
+        city: formData.get('city')?.toString().trim(),
+        zip: formData.get('zip')?.toString().trim(),
+        country: formData.get('country')?.toString().trim(),
+      },
+      note: formData.get('note')?.toString().trim() ?? '',
+      shippingMethod: selectedShipping,
+      paymentMethod: selectedPayment,
+      items: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
+    };
+
+    setCheckoutLoading(true);
+    setCheckoutStatus(null);
+
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data: { orderId?: string; invoice?: { invoiceId?: string }; message?: string } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message ?? 'Objednávku se nepodařilo dokončit.');
+      }
+
+      setCart([]);
+      event.currentTarget.reset();
+      setSelectedShipping(shippingMethods[0]?.id ?? '');
+      setSelectedPayment(paymentMethods[0]?.id ?? '');
+      setCheckoutStatus({
+        type: 'success',
+        message: `Objednávka přijata! Číslo objednávky: ${data.orderId}. Faktura byla vystavena jako ${data.invoice?.invoiceId}.`,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Objednávku se nepodařilo dokončit.';
+      setCheckoutStatus({ type: 'error', message });
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
+
+  const newsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('newsletter-email')?.toString().trim();
+
+    if (!email) {
+      setNewsletterStatus({ type: 'error', message: 'Zadejte prosím platnou e-mailovou adresu.' });
+      return;
+    }
+
+    setNewsletterStatus({ type: 'success', message: 'Děkujeme! Potvrzení odběru je na cestě do vaší schránky.' });
+    event.currentTarget.reset();
+  };
+
   return (
-    <div>
-      <header className="border-bottom border-secondary bg-dark">
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+    <>
+      <header>
+        <div className="top-bar">
+          <div className="top-bar__info">
+            <span>📦 Objednávky odesíláme přímo od oficiálních distributorů D&D.</span>
+            <span>💬 Zákaznická linka: +420 777 123 456</span>
+          </div>
+        </div>
+        <nav className="main-nav" aria-label="Hlavní navigace">
           <div className="container">
-              <Link href="/" className="navbar-brand d-flex align-items-center gap-2">
-              <span className="fs-4 fw-bold text-uppercase">Arcane Forge</span>
-              <span className="badge bg-primary">RPG hub</span>
+            <Link className="logo" href="#hero" onClick={() => setNavOpen(false)}>
+              Drak &amp; Kostky
             </Link>
             <button
-              className="navbar-toggler"
+              className="nav-toggle"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#mainNav"
-              aria-controls="mainNav"
-              aria-expanded="false"
-              aria-label="Přepnout navigaci"
+              aria-expanded={navOpen}
+              aria-controls="primary-navigation"
+              onClick={() => setNavOpen((previous) => !previous)}
             >
-              <span className="navbar-toggler-icon"></span>
+              <span></span>
+              <span></span>
+              <span></span>
             </button>
-            <div className="collapse navbar-collapse" id="mainNav">
-              <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
-                {menuItems.map((item) => (
-                  <li className="nav-item" key={item.href}>
-                    <a className="nav-link d-flex align-items-center gap-2" href={item.href}>
-                      <i className={`bi ${item.icon}`}></i>
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul
+              id="primary-navigation"
+              className={`nav-links ${navOpen ? 'nav-links--open' : ''}`}
+              onClick={() => setNavOpen(false)}
+            >
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+            <button className="cart-summary" type="button" onClick={() => setCartOpen((previous) => !previous)}>
+              <span className="cart-summary__icon" aria-hidden="true">
+                🛒
+              </span>
+              <span>Košík</span>
+              <span className="cart-summary__count" aria-live="polite">
+                {cartCount}
+              </span>
+            </button>
           </div>
         </nav>
-        <div className="bg-secondary bg-opacity-25 py-2">
-          <div className="container">
-            <nav aria-label="breadcrumb">
-              <ol className="breadcrumb mb-0">
-                <li className="breadcrumb-item">
-                  <a href="#o-projektu" className="link-light text-decoration-none">
-                    Úvod
-                  </a>
-                </li>
-                <li className="breadcrumb-item">
-                  <a href="#nabidka" className="link-light text-decoration-none">
-                    Nabídka
-                  </a>
-                </li>
-                <li className="breadcrumb-item active" aria-current="page">
-                  Kostky a tvorba světa
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
       </header>
 
-      <section className="bg-dark" id="o-projektu">
-        <div className="container py-4 py-md-5">
-          <div className="row g-4 align-items-center">
-            <div className="col-lg-6">
-              <div id="heroCarousel" className="carousel slide shadow-lg rounded-4 overflow-hidden" data-bs-ride="carousel">
-                <div className="carousel-indicators">
-                  {carouselSlides.map((slide, index) => (
-                    <button
-                      key={slide.title}
-                      type="button"
-                      data-bs-target="#heroCarousel"
-                      data-bs-slide-to={index}
-                      className={index === 0 ? 'active' : ''}
-                      aria-current={index === 0 ? 'true' : undefined}
-                      aria-label={slide.title}
-                    ></button>
-                  ))}
-                </div>
-                <div className="carousel-inner">
-                  {carouselSlides.map((slide, index) => (
-                    <div className={`carousel-item ${index === 0 ? 'active' : ''}`} key={slide.title}>
-                      <Image
-                        src={slide.image}
-                        alt={slide.title}
-                        width={1200}
-                        height={640}
-                        className="d-block w-100 object-fit-cover"
-                        priority={index === 0}
-                      />
-                      <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded-3 p-3">
-                        <h5 className="fw-bold">{slide.title}</h5>
-                        <p className="mb-0">{slide.caption}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <button className="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                  <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span className="visually-hidden">Předchozí</span>
-                </button>
-                <button className="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                  <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span className="visually-hidden">Další</span>
-                </button>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <h1 className="display-5 fw-bold text-white">Arcane Forge</h1>
-              <p className="lead text-light">
-                Kreativní dílna, komunitní klub a specializovaný obchod zaměřený na stolní hry na hrdiny.
-                Spojujeme hráče, vypravěče, ilustrátory i pedagogy, kteří chtějí pomocí RPG vyprávět silné příběhy.
+      <main>
+        <section className="hero" id="hero">
+          <div className="container hero__content">
+            <div className="hero__text">
+              <p className="hero__tag">Oficiální partner Wizards of the Coast</p>
+              <h1>Český e-shop pro Dungeons &amp; Dragons dobrodruhy</h1>
+              <p>
+                Vydejte se na epickou výpravu s prémiovými kostkami, miniaturami a oficiálními příručkami. Logistiku řešíme
+                dropshippingem přímo od ověřených distributorů.
               </p>
-              <div className="d-flex flex-wrap gap-3 mt-4">
-                <a href="#nabidka" className="btn btn-primary btn-lg">
-                  <i className="bi bi-cart-plus me-2"></i>
-                  Prohlédnout nabídku
+              <div className="hero__actions">
+                <a className="btn btn--primary" href="#produkty">
+                  Prohlédnout produkty
                 </a>
-                <a href="#komunita" className="btn btn-outline-light btn-lg">
-                  <i className="bi bi-discord me-2"></i>
-                  Připojit se ke komunitě
+                <a className="btn btn--ghost" href="#dropshipping">
+                  Jak funguje dropshipping
                 </a>
-                <button
-                  type="button"
-                  className="btn btn-warning btn-lg text-dark"
-                  data-bs-toggle="modal"
-                  data-bs-target="#visionModal"
-                >
-                  <i className="bi bi-lightning-charge me-2"></i>
-                  Naše vize
-                </button>
               </div>
+              <ul className="hero__badges">
+                <li>✔️ Oficiální licence D&amp;D</li>
+                <li>🚚 Odeslání do 48 hodin</li>
+                <li>🌍 Dodání po celé EU</li>
+              </ul>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-secondary bg-opacity-10 py-5" id="wireframe">
-        <div className="container">
-          <div className="row g-4 align-items-stretch">
-            <div className="col-lg-5">
-              <div className="p-4 h-100 rounded-4 bg-dark border border-secondary">
-                <h2 className="h4 text-primary">Wireframe mobilní verze</h2>
-                <p className="mb-3">
-                  Mobilní wireframe domovské stránky začíná kompaktním logem a hamburger menu. Pod nimi je carousel s
-                  aktuálními událostmi, následovaný sekcí statistik, třemi kartami nabídek, taby s programem a formulářem
-                  pro přihlášení do klubu. Spodní část uzavírá datová tabulka novinek a kontaktní blok s mapou.
-                </p>
-                <ul className="list-unstyled mb-0 small">
-                  <li className="mb-2">
-                    <i className="bi bi-1-circle me-2 text-primary"></i>Horní panel s logem a navigací.
-                  </li>
-                  <li className="mb-2">
-                    <i className="bi bi-2-circle me-2 text-primary"></i>Carousel s propagačním sdělením.
-                  </li>
-                  <li className="mb-2">
-                    <i className="bi bi-3-circle me-2 text-primary"></i>Blok highlight karet a sekce komunitních aktivit.
-                  </li>
-                  <li>
-                    <i className="bi bi-4-circle me-2 text-primary"></i>Formulář členství, tabulka inventáře, patička.
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-7">
-              <div className="ratio ratio-9x16 shadow-lg rounded-4 overflow-hidden border border-secondary">
+            <div className="hero__visual">
+              <div className="hero__visual-card">
                 <Image
-                  src="https://images.ctfassets.net/lt0wyz0e3ujo/mobileWireframe/5f4b1c06a8b85184bb7f132951a7858b/wireframe.jpg"
-                  alt="Wireframe mobilní verze Arcane Forge"
-                  width={900}
-                  height={1600}
-                  className="object-fit-cover"
+                  src="https://images.unsplash.com/photo-1612036782180-6f0b6cd649b6?auto=format&fit=crop&w=800&q=80"
+                  alt="Prémiová sada D&D kostek"
+                  width={800}
+                  height={600}
+                  priority
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-5" id="nabidka">
-        <div className="container">
-          <div className="row text-center mb-4">
-            <div className="col">
-              <span className="badge bg-primary rounded-pill text-uppercase">Nabídka</span>
-              <h2 className="mt-2">Co u nás vzniká</h2>
-              <p className="text-secondary">
-                Od vlastních produktů přes komunitní akce až po vzdělávání budoucích mistrů jeskyně.
-              </p>
-            </div>
-          </div>
-          <div className="row g-4">
-            {highlightCards.map((card) => (
-              <div className="col-md-4" key={card.title}>
-                <div className="h-100 p-4 rounded-4 bg-dark border border-secondary">
-                  <div className="display-6 text-primary mb-3">
-                    <i className={`bi ${card.icon}`}></i>
-                  </div>
-                  <h3 className="h5">{card.title}</h3>
-                  <p className="text-secondary">{card.description}</p>
-                  <a href="#program" className="btn btn-sm btn-outline-primary">
-                    <i className="bi bi-arrow-right-circle me-2"></i>
-                    Zjistit více
-                  </a>
+                <div className="hero__visual-overlay">
+                  <p>Limitované edice kostek</p>
+                  <span>už od 649 Kč</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-secondary bg-opacity-10 py-5" id="komunita">
-        <div className="container">
-          <div className="row g-4">
-            <div className="col-lg-6">
-              <h2 className="h3">Komunitní kalendář</h2>
-              <p className="text-secondary">
-                Každý měsíc pořádáme desítky akcí pro veřejnost i členy klubu. Rezervujte si místo skrze náš portál nebo se
-                zastavte osobně v dílně.
-              </p>
-              <ul className="list-group list-group-flush bg-dark border border-secondary rounded-4">
-                {upcomingEvents.map((event) => (
-                  <li key={event.title} className="list-group-item bg-dark text-light border-secondary">
-                    <h3 className="h5 mb-1">
-                      <i className="bi bi-calendar-week me-2 text-primary"></i>
-                      {event.title}
-                    </h3>
-                    <div className="small text-secondary mb-2">{event.time}</div>
-                    <p className="mb-0">{event.description}</p>
-                  </li>
-                ))}
-              </ul>
             </div>
-            <div className="col-lg-6">
-              <h2 className="h3">Programové bloky</h2>
-              <ul className="nav nav-tabs" id="programTabs" role="tablist">
-                {tabPanels.map((tab, index) => (
-                  <li className="nav-item" role="presentation" key={tab.id}>
-                    <button
-                      className={`nav-link ${index === 0 ? 'active' : ''}`}
-                      id={`${tab.id}-tab`}
-                      data-bs-toggle="tab"
-                      data-bs-target={`#${tab.id}`}
-                      type="button"
-                      role="tab"
-                      aria-controls={tab.id}
-                      aria-selected={index === 0}
-                    >
-                      <i className={`bi ${tab.icon} me-2`}></i>
-                      {tab.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <div className="tab-content border border-top-0 border-secondary rounded-bottom-4 bg-dark p-4" id="programTabsContent">
-                {tabPanels.map((tab, index) => (
-                  <div
-                    key={tab.id}
-                    className={`tab-pane fade ${index === 0 ? 'show active' : ''}`}
-                    id={tab.id}
-                    role="tabpanel"
-                    aria-labelledby={`${tab.id}-tab`}
-                  >
-                    <p className="mb-0">{tab.description}</p>
-                  </div>
-                ))}
+          </div>
+        </section>
+
+        <section className="usp" id="vyhody">
+          <div className="container">
+            <div className="section-header">
+              <h2>Proč nakupovat u nás</h2>
+              <p>Spojujeme komunitu hráčů D&amp;D s nejlepšími oficiálními produkty a jistotou rychlého doručení.</p>
+            </div>
+            <div className="usp__grid">
+              {uspBlocks.map((block) => (
+                <article key={block.title}>
+                  <h3>{block.title}</h3>
+                  <p>{block.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="product-filters" aria-label="Filtr produktů">
+          <div className="container">
+            <form
+              className="filters"
+              onReset={(event) => {
+                event.preventDefault();
+                resetFilters();
+              }}
+            >
+              <div className="filters__group">
+                <label htmlFor="category-filter">Kategorie</label>
+                <select
+                  id="category-filter"
+                  name="category"
+                  value={filters.category}
+                  onChange={(event) => handleFilterChange('category', event.target.value)}
+                >
+                  <option value="">Vše</option>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
+              <div className="filters__group">
+                <label htmlFor="brand-filter">Značka</label>
+                <select
+                  id="brand-filter"
+                  name="brand"
+                  value={filters.brand}
+                  onChange={(event) => handleFilterChange('brand', event.target.value)}
+                >
+                  <option value="">Vše</option>
+                  {brands.map((brand) => (
+                    <option key={brand} value={brand}>
+                      {brand}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="filters__group">
+                <label htmlFor="price-filter">Cena do</label>
+                <select
+                  id="price-filter"
+                  name="price"
+                  value={filters.price}
+                  onChange={(event) => handleFilterChange('price', event.target.value)}
+                >
+                  <option value="">Bez limitu</option>
+                  <option value="1000">1 000 Kč</option>
+                  <option value="1500">1 500 Kč</option>
+                  <option value="2000">2 000 Kč</option>
+                  <option value="3000">3 000 Kč</option>
+                </select>
+              </div>
+              <div className="filters__group">
+                <label className="checkbox" htmlFor="stock-filter">
+                  <input
+                    id="stock-filter"
+                    type="checkbox"
+                    checked={filters.stock}
+                    onChange={(event) => handleFilterChange('stock', event.target.checked)}
+                  />
+                  <span>Skladem u partnera</span>
+                </label>
+              </div>
+              <button className="btn btn--ghost" type="reset">
+                Vymazat
+              </button>
+            </form>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-5" id="program">
-        <div className="container">
-          <div className="row align-items-center g-4">
-            <div className="col-md-6">
-              <h2 className="h3">Arcane Forge DataTable katalog</h2>
-              <p className="text-secondary">
-                Kompletní katalog produktů, workshopů a digitálních balíčků. Tabulku lze filtrovat, vyhledávat a řadit podle
-                libovolného sloupce. Vzorek obsahuje 50 aktuálních položek, které pravidelně obměňujeme podle zájmu komunity.
-              </p>
-              <p className="small text-secondary">
-                <i className="bi bi-info-circle me-2"></i>DataTable je stylovaná komponenta pro Bootstrap 5 s podporou
-                stránkování, vyhledávání a řazení.
-              </p>
+        <section className="products" id="produkty">
+          <div className="container">
+            <div className="section-header">
+              <h2>Vyberte si své vybavení</h2>
+              <p>Kompletní nabídka oficiálních D&amp;D produktů s aktuálním statusem dostupnosti.</p>
             </div>
-            <div className="col-md-6 text-md-end">
-              <a href="#formular" className="btn btn-outline-light me-2">
-                <i className="bi bi-pencil-square me-2"></i>
-                Přihláška do klubu
-              </a>
-              <a href="#kontakt" className="btn btn-primary">
-                <i className="bi bi-geo-alt me-2"></i>
-                Navštívit dílnu
-              </a>
-            </div>
-          </div>
-          <div className="table-responsive mt-4">
-            <table id="catalogTable" className="table table-dark table-striped table-hover align-middle" style={{ width: '100%' }}>
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Kód</th>
-                  <th scope="col">Název položky</th>
-                  <th scope="col">Kategorie</th>
-                  <th scope="col">Cena</th>
-                  <th scope="col">Dostupnost</th>
-                  <th scope="col">Silná stránka</th>
-                  <th scope="col">Publikum</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableRecords.map((record) => (
-                  <tr key={record.code}>
-                    <th scope="row">{record.id}</th>
-                    <td>{record.code}</td>
-                    <td>{record.title}</td>
-                    <td>{record.category}</td>
-                    <td>{record.price}</td>
-                    <td>{record.stock}</td>
-                    <td>{record.focus}</td>
-                    <td>{record.audience}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-secondary bg-opacity-10 py-5" id="akademie">
-        <div className="container">
-          <div className="row g-4">
-            <div className="col-lg-7">
-              <h2 className="h3">Komplexní přihláška do Arcane Forge Academy</h2>
-              <p className="text-secondary">
-                Připojte se k ročnímu programu zaměřenému na tvorbu světů, přípravu kampaní a vedení herních skupin. Formulář
-                vyplňte co nejpodrobněji, ať vám můžeme nabídnout ideální studijní plán.
-              </p>
-              <form className="row g-3" id="formular">
-                <div className="col-md-6">
-                  <label htmlFor="fullName" className="form-label">
-                    Celé jméno
-                  </label>
-                  <input type="text" className="form-control" id="fullName" placeholder="Jana Dračí" required />
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="email" className="form-label">
-                    E-mail
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text" id="email-addon">
-                      <i className="bi bi-envelope"></i>
-                    </span>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      aria-describedby="email-addon"
-                      placeholder="jana@arcane.cz"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="phone" className="form-label">
-                    Telefon
-                  </label>
-                  <input type="tel" className="form-control" id="phone" placeholder="+420 777 123 456" />
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="city" className="form-label">
-                    Město
-                  </label>
-                  <input type="text" className="form-control" id="city" placeholder="Brno" />
-                </div>
-                <div className="col-12">
-                  <label className="form-label d-block">Preferovaná role ve skupině</label>
-                  <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="role" id="rolePlayer" value="player" defaultChecked />
-                    <label className="form-check-label" htmlFor="rolePlayer">
-                      Hráč
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="role" id="roleDm" value="dm" />
-                    <label className="form-check-label" htmlFor="roleDm">
-                      Vypravěč
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="role" id="roleDesigner" value="designer" />
-                    <label className="form-check-label" htmlFor="roleDesigner">
-                      Návrhář světa
-                    </label>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="experience" className="form-label">
-                    Zkušenosti
-                  </label>
-                  <select id="experience" className="form-select" defaultValue="intermediate">
-                    <option value="beginner">Začátečník</option>
-                    <option value="intermediate">Středně pokročilý</option>
-                    <option value="advanced">Pokročilý</option>
-                  </select>
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="groupSize" className="form-label">
-                    Velikost skupiny
-                  </label>
-                  <select id="groupSize" className="form-select" defaultValue="4">
-                    <option value="3">3 osoby</option>
-                    <option value="4">4 osoby</option>
-                    <option value="5">5 osob</option>
-                    <option value="6">6 osob</option>
-                    <option value="7">7+ osob</option>
-                  </select>
-                </div>
-                <div className="col-12">
-                  <label className="form-label">Dostupné dny</label>
-                  <div className="d-flex flex-wrap gap-3">
-                    {['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'].map((day, index) => (
-                      <div className="form-check" key={day}>
-                        <input className="form-check-input" type="checkbox" id={`day-${index}`} />
-                        <label className="form-check-label" htmlFor={`day-${index}`}>
-                          {day}
-                        </label>
+            <div className="product-grid" aria-live="polite">
+              {filteredProducts.length === 0 ? (
+                <p className="product-grid__empty">
+                  Žádné produkty neodpovídají zvoleným filtrům. Zkuste upravit výběr.
+                </p>
+              ) : (
+                filteredProducts.map((product) => {
+                  const isInStock = product.stock;
+                  return (
+                    <article className="product-card" key={product.id}>
+                      <div className="product-card__image">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          width={600}
+                          height={420}
+                          sizes="(min-width: 1024px) 300px, 100vw"
+                        />
+                        {!isInStock && <span className="badge badge--warning">Na cestě</span>}
+                        {product.tags.map((tag) => (
+                          <span className="badge" key={tag}>
+                            {tag}
+                          </span>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="col-12">
-                  <label htmlFor="topics" className="form-label">
-                    Oblasti zájmu
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text">
-                      <i className="bi bi-bookmark-star"></i>
-                    </span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="topics"
-                      placeholder="Worldbuilding, improvizace, audio produkce"
-                    />
-                  </div>
-                </div>
-                <div className="col-12">
-                  <label htmlFor="motivation" className="form-label">
-                    Motivace a cíle
-                  </label>
-                  <textarea className="form-control" id="motivation" rows={4} placeholder="Popište, co chcete v rámci akademie dokázat."></textarea>
-                </div>
-                <div className="col-12 form-check">
-                  <input className="form-check-input" type="checkbox" value="newsletter" id="newsletter" defaultChecked />
-                  <label className="form-check-label" htmlFor="newsletter">
-                    Chci dostávat měsíční newsletter s novinkami Arcane Forge.
-                  </label>
-                </div>
-                <div className="col-12 text-end">
-                  <button type="submit" className="btn btn-success btn-lg">
-                    <i className="bi bi-save me-2"></i>
-                    Uložit přihlášku
-                  </button>
-                </div>
-              </form>
-            </div>
-            <div className="col-lg-5">
-              <div className="p-4 rounded-4 bg-dark border border-secondary h-100">
-                <h3 className="h4">Proč vstoupit?</h3>
-                <ul className="list-unstyled text-secondary mb-4">
-                  <li className="mb-2">
-                    <i className="bi bi-check2-circle text-success me-2"></i>Mentoring od profesionálních designérů her.
-                  </li>
-                  <li className="mb-2">
-                    <i className="bi bi-check2-circle text-success me-2"></i>Přístup do digitální knihovny modulů a map.
-                  </li>
-                  <li className="mb-2">
-                    <i className="bi bi-check2-circle text-success me-2"></i>Možnost prezentovat projekty na komunitních akcích.
-                  </li>
-                  <li>
-                    <i className="bi bi-check2-circle text-success me-2"></i>Produkční zázemí pro podcasty a streamy.
-                  </li>
-                </ul>
-                <button className="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#visionModal">
-                  <i className="bi bi-stars me-2"></i>
-                  Přečíst manifest
-                </button>
-              </div>
+                      <div className="product-card__body">
+                        <h3>{product.name}</h3>
+                        <p>{product.description}</p>
+                        <ul className="product-card__meta">
+                          <li>
+                            <strong>Kategorie:</strong> {product.category}
+                          </li>
+                          <li>
+                            <strong>Značka:</strong> {product.brand}
+                          </li>
+                          <li>
+                            <strong>Dostupnost:</strong> {product.shipping}
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="product-card__footer">
+                        <div>
+                          <strong className="product-card__price">{formatPrice(product.price)}</strong>
+                          <span className={`product-card__stock ${isInStock ? 'in-stock' : 'preorder'}`}>
+                            {isInStock ? 'Skladem u partnera' : 'Předobjednávka'}
+                          </span>
+                        </div>
+                        <button className="btn btn--primary" type="button" onClick={() => addToCart(product.id)}>
+                          Přidat do košíku
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })
+              )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-5" id="kontakt">
-        <div className="container">
-          <div className="row g-4">
-            <div className="col-md-6">
-              <h2 className="h3">Kontakt a odkazy</h2>
-              <p className="text-secondary">
-                Najdete nás v kreativním centru Brna. Sledujte nás na sociálních sítích a rezervujte si prohlídku dílny.
-              </p>
-              <div className="d-flex flex-wrap gap-3 mb-3">
-                <a className="btn btn-outline-primary" href="https://discord.gg" target="_blank" rel="noreferrer">
-                  <i className="bi bi-discord me-2"></i>
-                  Discord
-                </a>
-                <a className="btn btn-primary" href="https://www.instagram.com" target="_blank" rel="noreferrer">
-                  <i className="bi bi-instagram me-2"></i>
-                  Instagram
-                </a>
-                <a className="btn btn-danger" href="https://www.youtube.com" target="_blank" rel="noreferrer">
-                  <i className="bi bi-youtube me-2"></i>
-                  YouTube kanál
-                </a>
-                <a className="btn btn-outline-light" href="mailto:ahoj@arcaneforge.cz">
-                  <i className="bi bi-envelope-arrow-up me-2"></i>
-                  Napište nám
-                </a>
-              </div>
-              <div className="p-4 rounded-4 bg-secondary bg-opacity-25">
-                <h3 className="h5">Otevírací doba</h3>
-                <p className="mb-1">Po–Pá: 10:00 – 20:00</p>
-                <p className="mb-1">So: 12:00 – 22:00</p>
-                <p className="mb-0">Ne: zavřeno (streamujeme)</p>
-              </div>
+        <section className="dropshipping" id="dropshipping">
+          <div className="container">
+            <div className="section-header">
+              <h2>Jak funguje náš dropshipping</h2>
+              <p>Vy si vyberete produkty, my je rezervujeme u dodavatele a ten je odešle přímo k vám.</p>
             </div>
-            <div className="col-md-6">
-              <div className="ratio ratio-16x9 rounded-4 overflow-hidden border border-secondary">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2561.734262602813!2d16.606837176996045!3d49.19506007137948!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDExJzQyLjIiTiAxNsKwMzYnMzIuNyJF!5e0!3m2!1scs!2scz!4v1700000000000!5m2!1scs!2scz"
-                  title="Arcane Forge na mapě"
-                  loading="lazy"
-                  allowFullScreen
-                ></iframe>
-              </div>
+            <div className="dropshipping__grid">
+              {dropshippingSteps.map((step) => (
+                <article key={step.step}>
+                  <span className="step" aria-hidden="true">
+                    {step.step}
+                  </span>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </article>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className="bg-black py-4 mt-5">
-        <div className="container text-center text-secondary small">
-          <p className="mb-1">© {new Date().getFullYear()} Arcane Forge – komunitní dílna pro fanoušky stolních RPG.</p>
-          <p className="mb-0">
-            Vyrobeno s láskou k dobrodružství. Sledujte nás na{' '}
-            <a href="https://www.facebook.com" className="link-light text-decoration-none" target="_blank" rel="noreferrer">
-              Facebooku
-            </a>{' '}
-            a{' '}
-            <a href="https://open.spotify.com" className="link-light text-decoration-none" target="_blank" rel="noreferrer">
-              Spotify
-            </a>
-            .
-          </p>
+        <section className="partners" aria-label="Naši partneři">
+          <div className="container">
+            <div className="section-header">
+              <h2>Partnerská síť</h2>
+              <p>Spolupracujeme s oficiálními licencovanými velkoobchody a výrobci prémiových doplňků.</p>
+            </div>
+            <div className="partner-logos">
+              {partnerLogos.map((partner) => (
+                <span key={partner}>{partner}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="testimonials">
+          <div className="container">
+            <div className="section-header">
+              <h2>Hráči o nás říkají</h2>
+              <p>Reference z české D&amp;D komunity.</p>
+            </div>
+            <div className="testimonial-grid">
+              {testimonials.map((testimonial) => (
+                <article key={testimonial.author}>
+                  <p>{testimonial.quote}</p>
+                  <span>— {testimonial.author}</span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="newsletter" aria-label="Přihláška k odběru">
+          <div className="container newsletter__content">
+            <div>
+              <h2>Získávejte novinky o limitovaných edicích</h2>
+              <p>Maximálně jednou měsíčně posíláme nové produkty, akce a tipy pro vaše kampaně.</p>
+              {newsletterStatus && (
+                <p
+                  role="status"
+                  style={{ color: newsletterStatus.type === 'success' ? '#6ad18d' : '#f4d47a', marginTop: '12px' }}
+                >
+                  {newsletterStatus.message}
+                </p>
+              )}
+            </div>
+            <form className="newsletter__form" onSubmit={newsletterSubmit}>
+              <input type="email" name="newsletter-email" placeholder="Vaše e-mailová adresa" required />
+              <button className="btn btn--primary" type="submit">
+                Odebírat
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <section className="faq" id="faq" aria-label="Často kladené dotazy">
+          <div className="container">
+            <div className="section-header">
+              <h2>FAQ</h2>
+              <p>Vše, co vás zajímá o nákupu přes dropshipping.</p>
+            </div>
+            <div className="faq__items">
+              {faqs.map((item) => (
+                <details key={item.question}>
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer" id="kontakt">
+        <div className="container footer__grid">
+          <div>
+            <h3>Drak &amp; Kostky</h3>
+            <p>Specializovaný D&amp;D e-shop s dropshipping logistikou a podporou české komunity.</p>
+          </div>
+          <div>
+            <h4>Kontakt</h4>
+            <ul>
+              <li>E-mail: podpora@drakakostky.cz</li>
+              <li>Tel: +420 777 123 456</li>
+              <li>Sídlo: Dračí hrad 13, Praha</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Užitečné odkazy</h4>
+            <ul>
+              <li>
+                <a href="#produkty">Katalog</a>
+              </li>
+              <li>
+                <a href="#faq">FAQ</a>
+              </li>
+              <li>
+                <a href="#dropshipping">Logistika</a>
+              </li>
+              <li>
+                <a href="#vyhody">Proč my</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4>Právní</h4>
+            <ul>
+              <li>Obchodní podmínky</li>
+              <li>Ochrana osobních údajů</li>
+              <li>Cookies</li>
+            </ul>
+          </div>
         </div>
+        <p className="footer__note">© 2024 Drak &amp; Kostky. Všechna práva vyhrazena.</p>
       </footer>
 
-      <div className="modal fade" id="visionModal" tabIndex={-1} aria-labelledby="visionModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered modal-lg">
-          <div className="modal-content bg-dark text-light border border-secondary">
-            <div className="modal-header border-secondary">
-              <h2 className="modal-title h4" id="visionModalLabel">
-                Manifest Arcane Forge
-              </h2>
-              <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-            </div>
-            <div className="modal-body">
-              <p>
-                Arcane Forge vznikla z touhy tvořit světy, které propojují lidi. Věříme v otevřenou komunitu, sdílení know-how
-                a podporu lokálních autorů. Každý měsíc vydáváme nové materiály, pořádáme workshopy a pomáháme charitativním
-                projektům, které využívají RPG k rozvoji kreativity, empatie a týmové spolupráce.
-              </p>
-              <p className="mb-0">
-                Naše dílna je bezpečným místem pro experimenty. Přineste svůj nápad a společně z něj vykováme legendární
-                dobrodružství.
-              </p>
-            </div>
-            <div className="modal-footer border-secondary">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                Zavřít
-              </button>
-              <a href="#formular" className="btn btn-primary">
-                <i className="bi bi-rocket-takeoff me-2"></i>
-                Spustit vlastní projekt
-              </a>
-            </div>
+      <div className={`cart ${isCartOpen ? 'cart--open' : ''}`} aria-hidden={!isCartOpen}>
+        <div className="cart__header">
+          <h2>Košík</h2>
+          <button className="cart__close" type="button" aria-label="Zavřít košík" onClick={() => setCartOpen(false)}>
+            ×
+          </button>
+        </div>
+        <div className="cart__body">
+          {!detailedCartItems.length ? (
+            <p className="cart__empty">Váš košík je zatím prázdný.</p>
+          ) : (
+            detailedCartItems.map((item) => (
+              <div className="cart-item" key={item.id}>
+                <div>
+                  <h4>{item.product.name}</h4>
+                  <p>
+                    {formatPrice(item.product.price)} • {item.product.shipping}
+                  </p>
+                </div>
+                <div className="cart-item__controls">
+                  <div className="quantity" aria-label={`Množství pro ${item.product.name}`}>
+                    <button type="button" onClick={() => updateQuantity(item.id, -1)} aria-label="Snížit množství">
+                      −
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button type="button" onClick={() => updateQuantity(item.id, 1)} aria-label="Zvýšit množství">
+                      +
+                    </button>
+                  </div>
+                  <button className="link" type="button" onClick={() => removeFromCart(item.id)}>
+                    Odstranit
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        <div className="cart__footer">
+          <div className="cart__summary">
+            <span>Mezisoučet</span>
+            <strong>{formatPrice(cartSubtotal)}</strong>
           </div>
+          <p className="cart__note">
+            Objednávkou potvrzujete, že zboží bude odesláno přímo od partnerského distributora.
+          </p>
+          <button className="btn btn--primary" type="button" onClick={handleCheckoutOpen}>
+            Pokračovat k objednávce
+          </button>
         </div>
       </div>
-    </div>
+
+      <div className={`checkout ${isCheckoutOpen ? 'checkout--open' : ''}`} aria-hidden={!isCheckoutOpen}>
+        <div className="checkout__dialog" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+          <button className="checkout__close" type="button" aria-label="Zavřít objednávku" onClick={handleCheckoutClose}>
+            ×
+          </button>
+          <h2 id="checkout-title">Dokončení objednávky</h2>
+          <p className="checkout__intro">
+            Vyplňte prosím doručovací údaje. Platba a fakturace proběhne automaticky přes propojené systémy partnerů.
+          </p>
+          <div className="checkout__grid">
+            <form className="checkout-form" onSubmit={handleCheckoutSubmit}>
+              <div className="form-row">
+                <label>
+                  Jméno a příjmení
+                  <input name="name" type="text" required autoComplete="name" />
+                </label>
+                <label>
+                  E-mail
+                  <input name="email" type="email" required autoComplete="email" />
+                </label>
+              </div>
+              <div className="form-row">
+                <label>
+                  Telefon
+                  <input name="phone" type="tel" required autoComplete="tel" />
+                </label>
+                <label>
+                  Ulice a číslo
+                  <input name="address" type="text" required autoComplete="address-line1" />
+                </label>
+              </div>
+              <div className="form-row">
+                <label>
+                  Město
+                  <input name="city" type="text" required autoComplete="address-level2" />
+                </label>
+                <label>
+                  PSČ
+                  <input name="zip" type="text" required autoComplete="postal-code" />
+                </label>
+              </div>
+              <label>
+                Země
+                <input name="country" type="text" defaultValue="Česká republika" required />
+              </label>
+              <label>
+                Doprava
+                <select value={selectedShipping} onChange={(event) => setSelectedShipping(event.target.value)} required>
+                  {shippingMethods.map((method) => (
+                    <option key={method.id} value={method.id}>
+                      {method.label} ({formatPrice(method.price)})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Platba
+                <select value={selectedPayment} onChange={(event) => setSelectedPayment(event.target.value)} required>
+                  {paymentMethods.map((method) => (
+                    <option key={method.id} value={method.id}>
+                      {method.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Poznámka k objednávce
+                <textarea name="note" rows={3} placeholder="Upřesněte doručení, klub, fakturaci..."></textarea>
+              </label>
+              <div className="checkout__actions">
+                <button className="btn btn--primary" type="submit" disabled={checkoutLoading}>
+                  {checkoutLoading ? 'Odesíláme objednávku…' : 'Odeslat objednávku'}
+                </button>
+              </div>
+            </form>
+            <aside className="checkout-summary">
+              {detailedCartItems.length === 0 ? (
+                <p className="checkout-summary__empty">Košík je prázdný. Přidejte si produkty do objednávky.</p>
+              ) : (
+                <>
+                  {detailedCartItems.map((item) => (
+                    <div className="checkout-summary__item" key={item.id}>
+                      <div>
+                        <strong>{item.product.name}</strong>
+                        <span>
+                          {item.quantity} × {formatPrice(item.product.price)}
+                        </span>
+                      </div>
+                      <span>{formatPrice(item.product.price * item.quantity)}</span>
+                    </div>
+                  ))}
+                  {shippingOption && (
+                    <div className="checkout-summary__item">
+                      <div>
+                        <strong>Doprava</strong>
+                        <span>{shippingOption.label}</span>
+                      </div>
+                      <span>{formatPrice(shippingOption.price)}</span>
+                    </div>
+                  )}
+                  <div className="checkout-summary__total">
+                    <span>Celkem</span>
+                    <strong>{formatPrice(orderTotal)}</strong>
+                  </div>
+                  <p className="checkout-summary__hint">
+                    Po potvrzení objednávky automaticky zašleme instrukce dodavateli a e-mailem obdržíte fakturu.
+                  </p>
+                </>
+              )}
+            </aside>
+          </div>
+          {checkoutStatus && (
+            <div
+              className={`checkout__status ${
+                checkoutStatus.type === 'success' ? 'checkout-status--success' : 'checkout-status--error'
+              }`}
+              role="status"
+            >
+              {checkoutStatus.message}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
