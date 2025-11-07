@@ -1,0 +1,110 @@
+[
+  {
+    "id": "dice-emerald",
+    "name": "Sada kostek Emerald Wyrm",
+    "description": "Prémiové kovové kostky se zelenou patinou a černým jádrem.",
+    "category": "Kostky",
+    "brand": "Legend Dice",
+    "price": 1290,
+    "stock": true,
+    "shipping": "EU sklad / odeslání do 48 h",
+    "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80",
+    "tags": ["limitovaná edice", "prémiové"]
+  },
+  {
+    "id": "dice-amethyst",
+    "name": "Průsvitné kostky Amethyst",
+    "description": "Polyresinová sada se zlatým číslováním a lesklým efektem.",
+    "category": "Kostky",
+    "brand": "Chessex",
+    "price": 749,
+    "stock": true,
+    "shipping": "USA sklad / doručení 5–7 dní",
+    "image": "https://images.unsplash.com/photo-1571127231707-69e41ebf0f08?auto=format&fit=crop&w=600&q=80",
+    "tags": ["novinka"]
+  },
+  {
+    "id": "miniature-red-dragon",
+    "name": "Miniatura: Red Dragon Ancient",
+    "description": "Resinová miniatura ve scale 1:60, předbarvená, výška 18 cm.",
+    "category": "Miniatury",
+    "brand": "Gale Force Nine",
+    "price": 2690,
+    "stock": false,
+    "shipping": "Rezervace / odeslání do 10 dní",
+    "image": "https://images.unsplash.com/photo-1611525029184-ef78c1e0d6fe?auto=format&fit=crop&w=600&q=80",
+    "tags": ["prémiové"]
+  },
+  {
+    "id": "miniature-heroes",
+    "name": "Heroes Starter Pack",
+    "description": "Sada 12 plastových miniatur připravených na malování.",
+    "category": "Miniatury",
+    "brand": "WizKids",
+    "price": 1590,
+    "stock": true,
+    "shipping": "EU sklad / odeslání do 72 h",
+    "image": "https://images.unsplash.com/photo-1552166539-268ca47f1533?auto=format&fit=crop&w=600&q=80",
+    "tags": ["pro nováčky"]
+  },
+  {
+    "id": "book-players-handbook",
+    "name": "Player's Handbook (CZ/EN bundle)",
+    "description": "Základní příručka pro hráče v českém překladu s originálem.",
+    "category": "Příručky",
+    "brand": "Wizards of the Coast",
+    "price": 1999,
+    "stock": true,
+    "shipping": "CZ distribuce / odeslání do 24 h",
+    "image": "https://images.unsplash.com/photo-1616628188505-404cb02c4d9f?auto=format&fit=crop&w=600&q=80",
+    "tags": ["oficiální", "top prodej"]
+  },
+  {
+    "id": "book-spelljammer",
+    "name": "Spelljammer: Adventures in Space",
+    "description": "Boxed set s třemi příručkami, mapami a DM materiály.",
+    "category": "Příručky",
+    "brand": "Wizards of the Coast",
+    "price": 2499,
+    "stock": false,
+    "shipping": "USA sklad / doručení 7–9 dní",
+    "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80",
+    "tags": ["novinka", "prémiové"]
+  },
+  {
+    "id": "terrain-dungeon-tiles",
+    "name": "Dungeon Tiles Deluxe",
+    "description": "Magnetické dílky pro modulární tvorbu dungeonů.",
+    "category": "Terrain",
+    "brand": "Dwarven Forge",
+    "price": 3390,
+    "stock": true,
+    "shipping": "EU sklad / odeslání do 48 h",
+    "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80",
+    "tags": ["prémiové", "limitovaná edice"]
+  },
+  {
+    "id": "terrain-battle-mat",
+    "name": "Battle Mat Premium (roll-up)",
+    "description": "Oboustranná mapa s hex/grid potiskem, voděodolný povrch.",
+    "category": "Terrain",
+    "brand": "Nord Games",
+    "price": 1190,
+    "stock": true,
+    "shipping": "EU sklad / odeslání do 24 h",
+    "image": "https://images.unsplash.com/photo-1526418472931-0ee84f7e9c2f?auto=format&fit=crop&w=600&q=80",
+    "tags": ["pro nováčky"]
+  },
+  {
+    "id": "merch-critical-role",
+    "name": "Critical Role Dice Vault",
+    "description": "Oficiální merch box s kostkami a kovovým medailonem.",
+    "category": "Merch",
+    "brand": "Critical Role",
+    "price": 1890,
+    "stock": false,
+    "shipping": "USA sklad / doručení 6–8 dní",
+    "image": "https://images.unsplash.com/photo-1612036782721-016e199f30f9?auto=format&fit=crop&w=600&q=80",
+    "tags": ["merch", "prémiové"]
+  }
+]
