@@ -1,9 +1,15 @@
 import './globals.css';
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Drak & Kostky | Storefront',
   description: 'Headless Next.js storefront pro Dungeons & Dragons doplňky.',
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon.png',
+    shortcut: '/icon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

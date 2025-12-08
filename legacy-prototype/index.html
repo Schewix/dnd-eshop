@@ -3,444 +3,706 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Drak &amp; Kostky | Český D&D e-shop</title>
+    <title>Drak &amp; Kostky | Český D&amp;D e-shop</title>
     <meta
       name="description"
-      content="Drak & Kostky je český e-shop s oficiálními Dungeons & Dragons produkty, doplňky a limitovanými edicemi. Fungujeme na principu dropshippingu, takže si užijete rychlé dodání přímo od našich partnerů."
+      content="Drak & Kostky je český e-shop s oficiálními Dungeons & Dragons produkty, doplňky a limitovanými edicemi."
     />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAUklEQVR42mO42G/xfyAxw6gDRh0w6gBSFPNxi1FVHUkOABkKw9RQR5IDkA3FZzix6oZeCAyKNDCaDUez4Wg2HM2Go9lwNBuOZsPRbDjqgGHrAAB3b+6KMwFEYAAAAABJRU5ErkJggg=="
+    />
+    <link rel="icon" href="drak-kostky.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png?v=6" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png?v=6" />
+    <link rel="shortcut icon" href="favicon.ico?v=6" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=6" />
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg?v=6" color="#d18f38" />
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg?v=6" />
+    <link rel="manifest" href="images/site.webmanifest?v=6" />
+    <meta name="theme-color" content="#0e0b16" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="top-bar">
-      <div class="top-bar__info">
-        <span>📦 Objednávky odesíláme přímo od oficiálních distributorů D&D.</span>
-        <span>💬 Zákaznická linka: +420 777 123 456</span>
+    <header class="top-bar small text-center text-light py-2">
+      <div class="container d-flex flex-wrap justify-content-center gap-3">
+        <span><i class="bi bi-box-seam me-1 text-warning"></i> Odesíláme přímo od oficiálních distributorů.</span>
+        <span><i class="bi bi-chat-left-text me-1 text-warning"></i> Linka: +420 777 123 456</span>
+        <a class="link-light text-decoration-none" href="#contact"><i class="bi bi-geo-alt me-1"></i>Praha &amp; online komunita</a>
       </div>
     </header>
 
-    <nav class="main-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top glassy-nav border-bottom border-light-subtle">
       <div class="container">
-        <a class="logo" href="#hero">Drak &amp; Kostky</a>
-        <button class="nav-toggle" aria-label="Menu">
-          <span></span><span></span><span></span>
+        <a class="navbar-brand logo d-flex align-items-center gap-2" href="#hero">
+          <i class="bi bi-dice-6-fill text-warning fs-4"></i>
+          <span>Drak &amp; Kostky</span>
+        </a>
+        <button
+          class="navbar-toggler text-light"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          aria-label="Přepnout navigaci"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <ul class="nav-links">
-          <li><a href="#produkty">Produkty</a></li>
-          <li><a href="#dropshipping">Jak funguje</a></li>
-          <li><a href="#vyhody">Výhody</a></li>
-          <li><a href="#kontakt">Kontakt</a></li>
-        </ul>
-        <div class="cart-summary" id="cart-summary" aria-label="Otevřít košík">
-          <span class="cart-summary__icon">🛒</span>
-          <span class="cart-summary__count" id="cart-count">0</span>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+            <li class="nav-item">
+              <a class="nav-link" href="#hero"><i class="bi bi-stars me-1"></i>Úvod</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#catalog"><i class="bi bi-bag-heart me-1"></i>Katalog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about"><i class="bi bi-compass me-1"></i>O nás</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#community"><i class="bi bi-people me-1"></i>Komunita</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#faq"><i class="bi bi-question-circle me-1"></i>FAQ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact"><i class="bi bi-envelope-open me-1"></i>Kontakt</a>
+            </li>
+          </ul>
+          <a class="btn btn-sm btn-accent ms-lg-3 text-white fw-semibold" href="#form">
+            <i class="bi bi-save me-1"></i>Uložit přihlášku
+          </a>
         </div>
+      </div>
+    </nav>
+
+    <section id="carousel" class="py-3">
+      <div class="container">
+        <div id="heroCarousel" class="carousel slide carousel-fade shadow-lg rounded-4 overflow-hidden" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img
+                src="images/carousel-1.jpg"
+                class="d-block w-100"
+                alt="Sada D&D kostek"
+              />
+              <div class="carousel-caption d-none d-md-block bg-glow">
+                <h5>Limitované edice kostek</h5>
+                <p>Prémiové materiály, metalické efekty a ruční gravírování.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="images/carousel-2.jpg"
+                class="d-block w-100"
+                alt="Fantasy ilustrace"
+              />
+              <div class="carousel-caption d-none d-md-block bg-glow">
+                <h5>Oficiální příručky v češtině</h5>
+                <p>Player's Handbook, Dungeon Master's Guide i nové moduly.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="images/carousel-3.jpg"
+                class="d-block w-100"
+                alt="Herní figurky"
+              />
+              <div class="carousel-caption d-none d-md-block bg-glow">
+                <h5>Miniatury a terén</h5>
+                <p>Resinové figurky, malířské sady a modulární dungeony.</p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Předchozí</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Další</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <nav class="breadcrumb-bar py-2" aria-label="breadcrumb">
+      <div class="container">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="#hero">Úvod</a></li>
+          <li class="breadcrumb-item"><a href="#catalog">E-shop</a></li>
+          <li class="breadcrumb-item active text-light" aria-current="page">Přehled</li>
+        </ol>
       </div>
     </nav>
 
     <main>
       <section class="hero" id="hero">
-        <div class="container hero__content">
-          <div class="hero__text">
-            <p class="hero__tag">Oficiální partner Wizards of the Coast</p>
-            <h1>Český e-shop pro Dungeons &amp; Dragons dobrodruhy</h1>
-            <p>
-              Vydejte se na epickou výpravu s prémiovými kostkami, propracovanými
-              miniaturami a oficiálními příručkami. Vše skladem u našich
-              partnerských distributorů, kteří objednávky odesílají přímo k vám.
-            </p>
-            <div class="hero__actions">
-              <a class="btn btn--primary" href="#produkty">Prohlédnout produkty</a>
-              <a class="btn btn--ghost" href="#dropshipping">Jak funguje dropshipping</a>
+        <div class="container">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+              <p class="hero__tag mb-2">Oficiální partner Wizards of the Coast</p>
+              <h1 class="display-5 fw-bold text-light">Český e-shop pro Dungeons &amp; Dragons dobrodruhy</h1>
+              <p class="lead text-secondary">
+                Prémiové kostky, propracované miniatury a české příručky s expresním doručením od partnerů. Komunita hráčů, která poradí s každou kampaní.
+              </p>
+              <div class="d-flex flex-wrap gap-3 hero__actions">
+                <a class="btn btn-primary btn-lg" href="#catalog">
+                  <i class="bi bi-bag-check me-2"></i>Prohlédnout katalog
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="#tabs">
+                  <i class="bi bi-journal-richtext me-2"></i>Naše nabídka
+                </a>
+                <a class="btn btn-accent btn-lg" href="#form">
+                  <i class="bi bi-person-add me-2"></i>Přidat se ke gildě
+                </a>
+              </div>
+              <ul class="hero__badges mt-4">
+                <li>✔️ Oficiální licence D&amp;D</li>
+                <li>🚚 Odeslání do 48 hodin</li>
+                <li>🌍 Dodání po celé EU</li>
+              </ul>
             </div>
-            <ul class="hero__badges">
-              <li>✔️ Oficiální licence D&amp;D</li>
-              <li>🚚 Odeslání do 48 hodin</li>
-              <li>🌍 Dodání po celé EU</li>
-            </ul>
-          </div>
-          <div class="hero__visual">
-            <div class="hero__visual-card">
-              <img
-                src="https://images.unsplash.com/photo-1612036782180-6f0b6cd649b6?auto=format&fit=crop&w=800&q=80"
-                alt="Sada D&D kostek"
-              />
-              <div class="hero__visual-overlay">
-                <p>Limitované edice kostek</p>
-                <span>už od 649 Kč</span>
+            <div class="col-lg-6">
+              <div class="hero-card glass-card shadow-lg">
+                <img
+                  src="images/hero-side.jpg"
+                  class="rounded-4"
+                  alt="Dobrodruh s kostkami"
+                />
+                <div class="hero__visual-overlay">
+                  <p class="mb-0 fw-semibold text-warning">Nové kampaně 2025</p>
+                  <small class="text-secondary">Předobjednávky otevřeny, záruka dodání.</small>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="usp" id="vyhody">
+      <section class="py-5 tabs-section" id="tabs">
         <div class="container">
-          <div class="section-header">
-            <h2>Proč nakupovat u nás</h2>
-            <p>
-              Spojujeme komunitu hráčů D&amp;D s nejlepšími oficiálními produkty a
-              jistotou rychlého doručení.
-            </p>
+          <div class="section-header text-center">
+            <h2>Co u nás najdete</h2>
+            <p>Vyberte si, zda chcete inspiraci k výbavě, logistice nebo komunitním akcím.</p>
           </div>
-          <div class="usp__grid">
-            <article>
-              <h3>Garance originality</h3>
-              <p>
-                Nakupujete přímo z distribuční sítě Wizards of the Coast a
-                ověřených výrobců doplňků.
-              </p>
-            </article>
-            <article>
-              <h3>Průběžné novinky</h3>
-              <p>
-                Pravidelně přidáváme nové oficiální moduly, kampaně a limitované
-                runy.
-              </p>
-            </article>
-            <article>
-              <h3>Flexibilní platba</h3>
-              <p>
-                Nabízíme platbu kartou, bankovním převodem, Apple Pay i Twisto na
-                fakturu.
-              </p>
-            </article>
-            <article>
-              <h3>Podpora hráčů</h3>
-              <p>
-                Zkušení DM a hráči na chatu vám poradí s výběrem příruček nebo s
-                tvorbou kampaně.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="product-filters" aria-label="Filtr produktů">
-        <div class="container">
-          <form class="filters" id="filters">
-            <div class="filters__group">
-              <label for="category-filter">Kategorie</label>
-              <select id="category-filter" name="category">
-                <option value="">Vše</option>
-              </select>
+          <ul class="nav nav-tabs justify-content-center" id="offerTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="gear-tab" data-bs-toggle="tab" data-bs-target="#gear" type="button" role="tab" aria-controls="gear" aria-selected="true">
+                <i class="bi bi-gem me-1"></i>Vybavení
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="logistics-tab" data-bs-toggle="tab" data-bs-target="#logistics" type="button" role="tab" aria-controls="logistics" aria-selected="false">
+                <i class="bi bi-truck me-1"></i>Logistika
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="community-tab" data-bs-toggle="tab" data-bs-target="#communityTab" type="button" role="tab" aria-controls="communityTab" aria-selected="false">
+                <i class="bi bi-fire me-1"></i>Komunita
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content glass-card p-4" id="offerTabsContent">
+            <div class="tab-pane fade show active" id="gear" role="tabpanel" aria-labelledby="gear-tab">
+              <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                  <h3>Prémiové produkty pro hráče i DMy</h3>
+                  <p class="text-secondary mb-3">
+                    Kostky s metalickým jádrem, malované miniatury, oficiální příručky a battlematy. Vybíráme jen licencované výrobce.
+                  </p>
+                  <div class="d-flex gap-3 flex-wrap">
+                    <span class="badge bg-warning text-dark">Limitované edice</span>
+                    <span class="badge badge-muted">CZ překlady</span>
+                    <span class="badge badge-muted">Digitální doplňky</span>
+                  </div>
+                </div>
+                <div class="col-lg-5 text-center">
+                  <div class="pill-card">
+                    <p class="mb-2 small text-uppercase text-secondary">Rychlé tipy</p>
+                    <h4 class="mb-1 text-warning">Oblíbené sady</h4>
+                    <p class="mb-0">Drakolith, Raven Queen, Embersteel</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="filters__group">
-              <label for="brand-filter">Značka</label>
-              <select id="brand-filter" name="brand">
-                <option value="">Vše</option>
-              </select>
+            <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
+              <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+              <h3>Doručení bez zdržení</h3>
+              <p class="text-secondary">
+                Evropské i zámořské sklady, proclení zařídíme a zásilku můžete sledovat v reálném čase. Platba kartou, Apple Pay nebo faktura pro kluby.
+              </p>
+              <ul class="text-secondary mb-0">
+                <li>Expresní EU doručení do 48 h</li>
+                <li>Tracking a notifikace e-mailem</li>
+                <li>Reklamace řešíme přímo s dodavatelem</li>
+              </ul>
+                </div>
+                <div class="col-lg-5">
+                  <div class="pill-card">
+                    <p class="mb-2 small text-uppercase text-secondary">Ceny dopravy</p>
+                    <h4 class="mb-1 text-light">od 129 Kč</h4>
+                    <p class="mb-0">Balíkovna, Z-Box, DHL Express</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="filters__group">
-              <label for="price-filter">Cena do</label>
-              <select id="price-filter" name="price">
-                <option value="">Bez limitu</option>
-                <option value="1000">1 000 Kč</option>
-                <option value="1500">1 500 Kč</option>
-                <option value="2000">2 000 Kč</option>
-                <option value="3000">3 000 Kč</option>
-              </select>
+            <div class="tab-pane fade" id="communityTab" role="tabpanel" aria-labelledby="community-tab">
+              <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                  <h3>Komunita dobrodruhů</h3>
+                  <p class="text-secondary">
+                    Každý měsíc pořádáme one-shoty, sdílíme moduly a nabízíme mentoring novým DMům. Přidejte se do guildy a získejte přístup k balíčku map.
+                  </p>
+                  <div class="d-flex gap-3 flex-wrap">
+                    <a class="btn btn-outline-accent" href="#form"><i class="bi bi-discord me-1"></i>Discord</a>
+                    <a class="btn btn-outline-light" href="#form"><i class="bi bi-controller me-1"></i>One-shot přihlášky</a>
+                    <a class="btn btn-link text-accent" href="#faq">FAQ pro nováčky</a>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <div class="pill-card">
+                    <p class="mb-2 small text-uppercase text-secondary">Bonus</p>
+                    <h4 class="mb-1 text-warning">Mapa Dračí propasti</h4>
+                    <p class="mb-0">PDF &amp; VTT assety ke stažení po registraci.</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="filters__group">
-              <label class="checkbox">
-                <input type="checkbox" id="stock-filter" />
-                <span>Skladem u partnera</span>
-              </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-5" id="catalog">
+        <div class="container">
+          <div class="section-header text-center">
+            <h2>Katalog produktů</h2>
+            <p>Prohlédněte si kompletní nabídku v přehledné tabulce s dostupností a cenami.</p>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="glass-card h-100 p-4">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                  <i class="bi bi-shield-fill-check text-warning fs-3"></i>
+                  <h4 class="mb-0">Originální zboží</h4>
+                </div>
+                <p class="text-secondary mb-0">Nakupujeme přímo z distribuční sítě Wizards of the Coast a licencovaných partnerů.</p>
+              </div>
             </div>
-            <button class="btn btn--ghost" type="reset">Vymazat</button>
-          </form>
+            <div class="col-md-4">
+              <div class="glass-card h-100 p-4">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                  <i class="bi bi-rocket-takeoff-fill text-warning fs-3"></i>
+                  <h4 class="mb-0">Expresní doručení</h4>
+                </div>
+                <p class="text-secondary mb-0">Tracking zásilky, proclení a notifikace v reálném čase. EU doručení do 48 hodin.</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="glass-card h-100 p-4">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                  <i class="bi bi-heart-pulse-fill text-warning fs-3"></i>
+                  <h4 class="mb-0">Komunitní podpora</h4>
+                </div>
+                <p class="text-secondary mb-0">Zkušení DM a hráči poradí s výběrem příruček nebo s tvorbou kampaně.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card p-3 shadow-lg">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+              <div>
+                <h3 class="mb-1">Katalog produktů</h3>
+                <p class="text-secondary mb-0 small">Aktuální nabídka s dostupností, cenou a možností rychlého prokliku na detail.</p>
+              </div>
+              <div class="btn-group">
+                <button class="btn btn-primary btn-sm"><i class="bi bi-download me-1"></i>Export</button>
+                <button class="btn btn-outline-light btn-sm"><i class="bi bi-funnel me-1"></i>Filtr</button>
+                <button class="btn btn-outline-accent btn-sm" data-bs-toggle="modal" data-bs-target="#loreModal">
+                  <i class="bi bi-info-circle me-1"></i>Detail v modalu
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table id="productTable" class="table table-dark table-striped table-hover align-middle w-100">
+                <thead>
+                  <tr>
+                    <th>Kód</th>
+                    <th>Produkt</th>
+                    <th>Kategorie</th>
+                    <th>Dostupnost</th>
+                    <th>Cena</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="products" id="produkty">
+      <section class="py-5" id="about">
         <div class="container">
-          <div class="section-header">
-            <h2>Vyberte si své vybavení</h2>
-            <p>
-              Kompletní nabídka oficiálních D&amp;D produktů s jasným statusem
-              dostupnosti díky dropshipping napojení.
-            </p>
+          <div class="section-header text-center">
+            <h2>O nás &amp; detail produktu</h2>
+            <p>Reálný e-shop s licencovaným sortimentem, konzultacemi pro hráče a možností zobrazit detailní info v modalu.</p>
           </div>
-          <div class="product-grid" id="product-grid" aria-live="polite"></div>
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-7">
+              <div class="glass-card p-4 h-100">
+                <h3>Drak &amp; Kostky</h3>
+                <p class="text-secondary">
+                  Český e-shop tvořený hráči D&amp;D. Zaměřujeme se na prémiové produkty a podporu komunity.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                  <a class="btn btn-outline-light" href="#community"><i class="bi bi-people-fill me-1"></i>Naše komunita</a>
+                  <button class="btn btn-accent text-white" type="button" data-bs-toggle="modal" data-bs-target="#loreModal" id="loreDetailBtn">
+                    <i class="bi bi-eye-fill me-1"></i>Zobrazit lore v modalu
+                  </button>
+                  <a class="btn btn-link text-accent" href="#faq">Časté dotazy</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="glass-card p-4 h-100">
+                <h4 class="mb-3">Klíčové metriky</h4>
+                <div class="d-flex justify-content-between text-secondary">
+                  <span>Komunitní akce</span>
+                  <strong class="text-light">12 / měsíc</strong>
+                </div>
+                <div class="d-flex justify-content-between text-secondary">
+                  <span>Průměrné hodnocení</span>
+                  <strong class="text-light">4.9 ★</strong>
+                </div>
+                <div class="d-flex justify-content-between text-secondary">
+                  <span>Dostupných SKU</span>
+                  <strong class="text-light">650+</strong>
+                </div>
+                <p class="mt-3 text-secondary small mb-0">
+                  Kliknutím na záznam v tabulce nebo na tlačítko výše otevřete kroniku s náhodným příběhem a detaily produktu.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="dropshipping" id="dropshipping">
+      <section class="py-5" id="community">
         <div class="container">
-          <div class="section-header">
-            <h2>Jak funguje náš dropshipping</h2>
-            <p>
-              Rychlá logistika a transparentnost. Vy si vyberete produkty, my je
-              rezervujeme u dodavatele a ten je odešle přímo k vám.
-            </p>
+          <div class="section-header text-center">
+            <h2>Komunita &amp; Akce</h2>
+            <p>Série tlačítek, odkazů a ikon – ukázka různých stylů.</p>
           </div>
-          <div class="dropshipping__grid">
-            <article>
-              <span class="step">1</span>
-              <h3>Napojení na distributory</h3>
-              <p>
-                V reálném čase vidíme skladovost u partnerů v EU a USA. Zobrazené
-                produkty jsou opravdu dostupné.
-              </p>
-            </article>
-            <article>
-              <span class="step">2</span>
-              <h3>Automatické objednávky</h3>
-              <p>
-                Jakmile zaplatíte, odešleme objednávku distribučnímu partnerovi a
-                zajistíme fakturaci včetně DPH.
-              </p>
-            </article>
-            <article>
-              <span class="step">3</span>
-              <h3>Tracking zásilky</h3>
-              <p>
-                Obdržíte sledovací číslo i přibližný čas doručení. Zákaznický
-                servis řeší případné reklamace.
-              </p>
-            </article>
-            <article>
-              <span class="step">4</span>
-              <h3>Podpora po dodání</h3>
-              <p>
-                Při dotazech vám pomůže tým hráčů, který poradí s pravidly i
-                rozšířeními.
-              </p>
-            </article>
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="glass-card p-4 h-100">
+                <h4 class="mb-3">Live události</h4>
+                <p class="text-secondary">One-shoty, malířské dílny a kampaňové večery v Praze i online.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <a class="btn btn-outline-accent" href="#form"><i class="bi bi-calendar-week me-1"></i>Rezervovat</a>
+                  <a class="btn btn-primary" href="#catalog"><i class="bi bi-shop-window me-1"></i>Do katalogu</a>
+                  <a class="btn btn-outline-light" href="#faq"><i class="bi bi-question me-1"></i>FAQ</a>
+                  <a class="btn btn-link text-accent" href="#contact"><i class="bi bi-geo-alt me-1"></i>Mapa poboček</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="glass-card p-4 h-100">
+                <h4 class="mb-3">Digitální podpora</h4>
+                <p class="text-secondary">Balíčky map, VTT tokeny, PDF moduly a newsletter s tipy.</p>
+                <div class="d-flex flex-wrap gap-2">
+                  <a class="btn btn-accent" href="#form"><i class="bi bi-cloud-arrow-down me-1"></i>Stáhnout balíček</a>
+                  <a class="btn btn-outline-light" href="#tabs"><i class="bi bi-lightning-charge me-1"></i>Roadmapa</a>
+                  <button class="btn btn-outline-light" type="button" data-bs-toggle="modal" data-bs-target="#loreModal">
+                    <i class="bi bi-journal-bookmark me-1"></i>Detail akce
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="partners" aria-label="Naši partneři">
+      <section class="py-5" id="form">
         <div class="container">
-          <div class="section-header">
-            <h2>Partnerská síť</h2>
-            <p>
-              Spolupracujeme s oficiálními licencovanými velkoobchody a výrobci
-              prémiových doplňků.
-            </p>
+          <div class="section-header text-center">
+            <h2>Přihláška do guildy</h2>
+            <p>Vyplňte údaje, abychom vás mohli pozvat na akce a přidat do komunity.</p>
           </div>
-          <div class="partner-logos">
-            <span>Wizards Direct</span>
-            <span>Legend Dice UK</span>
-            <span>Gale Force Nine</span>
-            <span>Critical Role Shop</span>
-            <span>Beadle &amp; Grimm's</span>
+          <div class="glass-card p-4 shadow-lg">
+            <form class="row g-3 needs-validation" novalidate>
+              <div class="col-md-6">
+                <label for="fullName" class="form-label">Jméno a příjmení</label>
+                <input type="text" class="form-control" id="fullName" placeholder="Alžběta Drakobijka" required />
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="email" placeholder="alzbeta@dnd.cz" required />
+              </div>
+              <div class="col-md-4">
+                <label for="phone" class="form-label">Telefon</label>
+                <input type="tel" class="form-control" id="phone" placeholder="+420 777 123 456" required />
+              </div>
+              <div class="col-md-4">
+                <label for="city" class="form-label">Město</label>
+                <input type="text" class="form-control" id="city" placeholder="Praha" required />
+              </div>
+              <div class="col-md-4">
+                <label for="region" class="form-label">Region</label>
+                <select class="form-select" id="region" required>
+                  <option value="">Vyberte...</option>
+                  <option>Čechy</option>
+                  <option>Morava</option>
+                  <option>Slezsko</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="character" class="form-label">Jméno postavy</label>
+                <input type="text" class="form-control" id="character" placeholder="Lysa z Hlubiny" />
+              </div>
+              <div class="col-md-6">
+                <label for="class" class="form-label">Třída postavy</label>
+                <select class="form-select" id="class">
+                  <option>Bard</option>
+                  <option>Čaroděj</option>
+                  <option>Hraničář</option>
+                  <option>Klerik</option>
+                  <option>Paladin</option>
+                  <option>Zloděj</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="level" class="form-label">Úroveň postavy</label>
+                <input type="number" class="form-control" id="level" min="1" max="20" value="3" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label d-block">Preferovaný archetyp</label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="archetype" id="archetype1" value="roleplay" checked />
+                  <label class="form-check-label" for="archetype1">Roleplay</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="archetype" id="archetype2" value="combat" />
+                  <label class="form-check-label" for="archetype2">Combat</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="archetype" id="archetype3" value="mix" />
+                  <label class="form-check-label" for="archetype3">Mix</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="slot" class="form-label">Preferovaný slot</label>
+                <select class="form-select" id="slot">
+                  <option>Pátek večer</option>
+                  <option>Sobota odpoledne</option>
+                  <option>Neděle ráno</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="notes" class="form-label">Očekávání z kampaně</label>
+                <textarea class="form-control" id="notes" rows="3" placeholder="Jaký styl hry preferujete?"></textarea>
+              </div>
+              <div class="col-md-6">
+                <label for="donation" class="form-label">Dobrovolný příspěvek na komunitu</label>
+                <div class="input-group">
+                  <span class="input-group-text">Kč</span>
+                  <input type="number" class="form-control" id="donation" placeholder="0" min="0" step="50" />
+                  <span class="input-group-text">/ měsíc</span>
+                </div>
+              </div>
+              <div class="col-md-6 d-flex align-items-center">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="newsletter" checked />
+                  <label class="form-check-label" for="newsletter">Chci novinky o limitkách a akcích</label>
+                </div>
+              </div>
+              <div class="col-12 d-flex justify-content-end gap-2">
+                <button class="btn btn-outline-light" type="reset"><i class="bi bi-eraser me-1"></i>Vymazat</button>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-save me-1"></i>Uložit přihlášku</button>
+              </div>
+            </form>
           </div>
         </div>
       </section>
 
-      <section class="testimonials">
+      <section class="py-5" id="gallery">
         <div class="container">
-          <div class="section-header">
-            <h2>Hráči o nás říkají</h2>
-            <p>Reference z české D&amp;D komunity.</p>
+          <div class="section-header text-center">
+            <h2>Atmosféra hry</h2>
+            <p>Rychlý vizuální přehled – kostky, mapy i miniatury, které v e-shopu najdete.</p>
           </div>
-          <div class="testimonial-grid">
-            <article>
-              <p>
-                „Balíček z USA dorazil za 6 dní a kostky vypadají ještě lépe než
-                na fotkách. Díky za doporučení!“
-              </p>
-              <span>— Petra, DM z Brna</span>
-            </article>
-            <article>
-              <p>
-                „Objednali jsme startovní set pro nováčky a přišel kompletní,
-                český manuál byl součástí balení.“
-              </p>
-              <span>— Martin, klub Draci z Vysočiny</span>
-            </article>
-            <article>
-              <p>
-                „Líbí se mi, že vidím aktuální skladovost. Dropshipping funguje
-                skvěle, žádné starosti se clem.“
-              </p>
-              <span>— Jana, hráčka z Prahy</span>
-            </article>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="glass-card gallery-card h-100">
+                <img src="images/gallery-dice.jpg" alt="Sada kostek" />
+                <div class="p-3">
+                  <h5 class="mb-1">Metalické kostky</h5>
+                  <p class="text-secondary mb-0">Limitované edice s jemným gravírováním.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="glass-card gallery-card h-100">
+                <img src="images/gallery-maps.jpg" alt="Herní mapa" />
+                <div class="p-3">
+                  <h5 class="mb-1">Mapy a battlematy</h5>
+                  <p class="text-secondary mb-0">PVC maty i PDF pro VTT platformy.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="glass-card gallery-card h-100">
+                <img src="images/gallery-minis.jpg" alt="Fantasy miniatury" />
+                <div class="p-3">
+                  <h5 class="mb-1">Miniatury a terén</h5>
+                  <p class="text-secondary mb-0">Resin, STL i malované sběratelské kusy.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="newsletter" aria-label="Přihláška k odběru">
-        <div class="container newsletter__content">
-          <div>
-            <h2>Získávejte novinky o limitovaných edicích</h2>
-            <p>
-              Odešleme vám maximálně jeden e-mail měsíčně s novými produkty,
-              akcemi a tipy pro vaše kampaně.
-            </p>
-          </div>
-          <form class="newsletter__form">
-            <input type="email" placeholder="Vaše e-mailová adresa" required />
-            <button class="btn btn--primary" type="submit">Odebírat</button>
-          </form>
-        </div>
-      </section>
-
-      <section class="faq" id="faq" aria-label="Často kladené dotazy">
+      <section class="py-5" id="faq">
         <div class="container">
-          <div class="section-header">
+          <div class="section-header text-center">
             <h2>FAQ</h2>
-            <p>Vše, co vás zajímá o nákupu přes dropshipping.</p>
+            <p>Nejčastější otázky ohledně doručení, reklamací a digitálních produktů.</p>
           </div>
-          <div class="faq__items">
-            <details>
-              <summary>Jaká je doba doručení?</summary>
-              <p>
-                U produktů skladem v EU doručujeme do 3 pracovních dní. U USA
-                počítejte s 5–8 dny včetně proclení, o které se staráme my.
-              </p>
-            </details>
-            <details>
-              <summary>Řešíte reklamace a vrácení zboží?</summary>
-              <p>
-                Ano, reklamace zajišťujeme společně s distributorem. Stačí nám
-                napsat číslo objednávky, zbytek vyřídíme my.
-              </p>
-            </details>
-            <details>
-              <summary>Je možné platit na fakturu?</summary>
-              <p>
-                Pro herní kluby a školy nabízíme možnost fakturace se splatností
-                14 dní. Napište nám předem.
-              </p>
-            </details>
-            <details>
-              <summary>Mohu sledovat stav zásilky?</summary>
-              <p>
-                Ano, každý balík má sledovací číslo. Posíláme ho e-mailem a je
-                dostupné i v našem zákaznickém portálu.
-              </p>
-            </details>
+          <div class="accordion glass-card" id="faqAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqOneBody" aria-expanded="false" aria-controls="faqOneBody">
+                  Jak rychle doručujete?
+                </button>
+              </h2>
+              <div id="faqOneBody" class="accordion-collapse collapse" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  EU sklad do 48 h, USA do 5–8 dnů. Vše včetně proclení a tracking čísla.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwoBody" aria-expanded="false" aria-controls="faqTwoBody">
+                  Řešíte reklamace?
+                </button>
+              </h2>
+              <div id="faqTwoBody" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">Ano, sepsáním protokolu a komunikací s distributorem. Peníze vracíme do 5 dní.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThreeBody" aria-expanded="false" aria-controls="faqThreeBody">
+                  Nabízíte PDF a digitální produkty?
+                </button>
+              </h2>
+              <div id="faqThreeBody" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">Ano, moduly, mapy i VTT tokeny. Přístup doručujeme e-mailem hned po zaplacení.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-5" id="contact">
+        <div class="container">
+          <div class="section-header text-center">
+            <h2>Kontakt</h2>
+            <p>Zůstaňme ve spojení.</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="glass-card contact-card p-4 h-100 text-center">
+                <h4>Drak &amp; Kostky</h4>
+                <p class="text-secondary mb-1">E-mail: podpora@drakakostky.cz</p>
+                <p class="text-secondary mb-1">Tel: +420 777 123 456</p>
+                <p class="text-secondary mb-0">Sídlo: Dračí hrad 13, Praha</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="glass-card contact-card p-4 h-100 text-center">
+                <h4>Sociální sítě</h4>
+                <div class="d-flex gap-3 justify-content-center">
+                  <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-discord"></i></a>
+                  <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-facebook"></i></a>
+                  <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-instagram"></i></a>
+                  <a class="btn btn-outline-light btn-sm" href="#"><i class="bi bi-youtube"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="glass-card contact-card p-4 h-100 text-center">
+                <h4>Rychlé odkazy</h4>
+                <ul class="list-unstyled text-secondary mb-0">
+                  <li><a class="text-decoration-none link-light" href="#catalog">Katalog</a></li>
+                  <li><a class="text-decoration-none link-light" href="#faq">FAQ</a></li>
+                  <li><a class="text-decoration-none link-light" href="#tabs">Roadmapa</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="footer" id="kontakt">
-      <div class="container footer__grid">
-        <div>
-          <h3>Drak &amp; Kostky</h3>
-          <p>
-            Specializovaný D&amp;D e-shop s dropshipping logistikou a podporou
-            české komunity.
-          </p>
-        </div>
-        <div>
-          <h4>Kontakt</h4>
-          <ul>
-            <li>E-mail: podpora@drakakostky.cz</li>
-            <li>Tel: +420 777 123 456</li>
-            <li>Sídlo: Dračí hrad 13, Praha</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Užitečné odkazy</h4>
-          <ul>
-            <li><a href="#produkty">Katalog</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#dropshipping">Logistika</a></li>
-            <li><a href="#vyhody">Proč my</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Právní</h4>
-          <ul>
-            <li>Obchodní podmínky</li>
-            <li>Ochrana osobních údajů</li>
-            <li>Cookies</li>
-          </ul>
-        </div>
+    <footer class="footer py-4">
+      <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <span class="text-secondary">© 2025 Drak &amp; Kostky. Všechna práva vyhrazena.</span>
+        <a class="btn btn-sm btn-outline-light" href="#hero"><i class="bi bi-arrow-up-short"></i>Zpět nahoru</a>
       </div>
-      <p class="footer__note">© 2024 Drak &amp; Kostky. Všechna práva vyhrazena.</p>
     </footer>
 
-    <div class="cart" id="cart" aria-live="polite" aria-hidden="true">
-      <div class="cart__header">
-        <h2>Košík</h2>
-        <button class="cart__close" id="cart-close" aria-label="Zavřít košík">×</button>
-      </div>
-      <div class="cart__body" id="cart-items">
-        <p class="cart__empty" id="cart-empty">Váš košík je zatím prázdný.</p>
-      </div>
-      <div class="cart__footer">
-        <div class="cart__summary">
-          <span>Mezisoučet</span>
-          <strong id="cart-total">0 Kč</strong>
-        </div>
-        <p class="cart__note">
-          Objednávkou potvrzujete souhlas s tím, že zboží bude odesláno přímo od
-          partnerského distributora.
-        </p>
-        <button class="btn btn--primary" type="button" id="checkout-btn">Pokračovat k objednávce</button>
-      </div>
-    </div>
-
-    <div class="checkout" id="checkout" aria-hidden="true">
-      <div class="checkout__dialog" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
-        <button class="checkout__close" id="checkout-close" aria-label="Zavřít objednávku">×</button>
-        <h2 id="checkout-title">Dokončení objednávky</h2>
-        <p class="checkout__intro">
-          Vyplňte prosím doručovací údaje. Platba a fakturace proběhne automaticky přes propojené systémy partnerů.
-        </p>
-        <div class="checkout__grid">
-          <form class="checkout-form" id="checkout-form">
-            <div class="form-row">
-              <label>Jméno a příjmení
-                <input type="text" name="name" required autocomplete="name" />
-              </label>
-              <label>E-mail
-                <input type="email" name="email" required autocomplete="email" />
-              </label>
-            </div>
-            <div class="form-row">
-              <label>Telefon
-                <input type="tel" name="phone" required autocomplete="tel" />
-              </label>
-              <label>Ulice a číslo
-                <input type="text" name="address" required autocomplete="address-line1" />
-              </label>
-            </div>
-            <div class="form-row">
-              <label>Město
-                <input type="text" name="city" required autocomplete="address-level2" />
-              </label>
-              <label>PSČ
-                <input type="text" name="zip" required autocomplete="postal-code" />
-              </label>
-            </div>
-            <label>Země
-              <input type="text" name="country" required value="Česká republika" />
-            </label>
-            <label>Doprava
-              <select id="checkout-shipping" required></select>
-            </label>
-            <label>Platba
-              <select id="checkout-payment" required></select>
-            </label>
-            <label>Poznámka k objednávce
-              <textarea name="note" rows="3" placeholder="Upřesněte doručení, klub, fakturaci..."></textarea>
-            </label>
-            <button class="btn btn--primary" type="submit" id="checkout-submit">Odeslat objednávku</button>
-          </form>
-          <aside class="checkout-summary">
-            <h3>Souhrn objednávky</h3>
-            <div id="checkout-summary" aria-live="polite"></div>
-            <p class="checkout-summary__hint">
-              Po potvrzení objednávky automaticky zašleme instrukce dodavateli a e-mailem obdržíte fakturu.
+    <div class="modal fade" id="loreModal" tabindex="-1" aria-labelledby="loreModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content glass-card">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="loreModalLabel">Detail z kroniky</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-secondary mb-0" id="loreModalText">
+              Každý týden zapisujeme do guildovní kroniky nové příběhy o hrdinech, kteří uspěli ve svých výpravách. Klikněte na libovolný produkt v tabulce a uvidíte náhodný záznam.
             </p>
-          </aside>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Zavřít</button>
+            <a class="btn btn-primary" href="#form"><i class="bi bi-pen me-1"></i>Zapsat vlastní příběh</a>
+          </div>
         </div>
-        <div class="checkout__status" id="checkout-status" hidden aria-live="polite"></div>
       </div>
     </div>
 
-    <script src="app.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
