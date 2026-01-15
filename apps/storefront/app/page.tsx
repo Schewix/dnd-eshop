@@ -207,6 +207,10 @@ export default function Page() {
     () => detailedCartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
     [detailedCartItems],
   );
+  const visibleNavLinks = useMemo(
+    () => navLinks.filter((link) => link.label !== 'Stanoviště'),
+    [],
+  );
 
   const shippingOption = shippingMethods.find((method) => method.id === selectedShipping) ?? shippingMethods[0];
   const orderTotal = cartSubtotal + (shippingOption?.price ?? 0);
@@ -420,7 +424,7 @@ export default function Page() {
               className={`nav-links ${navOpen ? 'nav-links--open' : ''}`}
               onClick={() => setNavOpen(false)}
             >
-              {navLinks.map((link) => (
+              {visibleNavLinks.map((link) => (
                 <li key={link.href}>
                   <a href={link.href}>{link.label}</a>
                 </li>
